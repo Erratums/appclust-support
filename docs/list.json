@@ -1,0 +1,130 @@
+[
+	{
+		"kb_id": "cookies_are_not_enabled",
+		"title": "Cookies are not enabled",
+		"tags": "cookies, login issue",
+		"url": "https://app.imsdesk.com/knowledgebase/files/cookies_are_not_enabled.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/6",
+		"maxWidth": "750"
+	},
+	{
+		"kb_id": "how_to_setup_rfid_for_employee",
+		"title": "How to setup RFID for Employee",
+		"tags": "rfid, employee rfid, time tracking",
+		"url": "https://app.imsdesk.com/knowledgebase/files/how_to_setup_rfid_for_employee.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/2",
+		"maxWidth": "750",
+		"maxHeight": "860"
+	},
+	{
+		"kb_id": "how_to_show_more_rows_in_list_table",
+		"title": "How to show more rows in list/table",
+		"tags": "table, grid, row, count",
+		"url": "https://app.imsdesk.com/knowledgebase/files/how_to_show_more_rows_in_list_table.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/10",
+		"maxWidth": "750",
+		"maxHeight": "710"
+	},
+	{
+		"kb_id": "where_is_my_quotations",
+		"title": "Where is my Quotations",
+		"tags": "quotations, invoice, find",
+		"url": "https://app.imsdesk.com/knowledgebase/files/where_is_my_quotations.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/12",
+		"maxWidth": "750",
+		"maxHeight": "910"
+	},
+	{
+		"kb_id": "how_to_set_previous_bill_date_in_invoice",
+		"title": "How to set previous bill date in invoice / purchase / stock",
+		"tags": "bill, invoice, previous, purchase, stock",
+		"url": "https://app.imsdesk.com/knowledgebase/files/how_to_set_previous_bill_date_in_invoice.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/9",
+		"maxWidth": "750"
+	},
+	{
+		"kb_id": "auto_generate_product_code",
+		"title": "Auto Generate Product Code",
+		"tags": "auto generate, product, product code",
+		"url": "https://app.imsdesk.com/knowledgebase/files/auto_generate_product_code.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/3",
+		"maxWidth": "850"
+	},
+	{
+		"kb_id": "customize_report_request",
+		"title": "Customize Report Request",
+		"tags": "report, customize, request",
+		"url": "https://app.imsdesk.com/knowledgebase/files/customize_report_request.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/7",
+		"maxWidth": "750",
+		"maxHeight": "450"
+	},
+	{
+		"kb_id": "how_to_add_items",
+		"title": "How to Add Products or Items",
+		"tags": "add products, add item",
+		"url": "https://app.imsdesk.com/knowledgebase/files/how_to_add_items.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/8",
+		"maxWidth": "750"
+	},
+	{
+		"kb_id": "sign_in_or_create_new_account",
+		"title": "Sign In or Create new account",
+		"tags": "Sign In, Create Account, New Account",
+		"url": "https://app.imsdesk.com/knowledgebase/files/sign_in_or_create_new_account.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/13",
+		"maxWidth": "750"
+	},
+	{
+		"kb_id": "changing_company_details",
+		"title": "Changing Company Details",
+		"tags": "change, update, company, organization, details",
+		"url": "https://app.imsdesk.com/knowledgebase/files/changing_company_details.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/14",
+		"maxWidth": "750"
+	},
+	{
+		"kb_id": "change_mobile_number",
+		"title": "Change Phone/Mobile Number",
+		"tags": "change, phone, mobile, number",
+		"url": "https://app.imsdesk.com/knowledgebase/files/change_mobile_number.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/15",
+		"maxWidth": "800",
+		"maxHeight": "750"
+	},
+	{
+		"kb_id": "advance_search",
+		"title": "Advance Search",
+		"tags": "search, advance, filter",
+		"url": "https://app.imsdesk.com/knowledgebase/files/advance_search.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/17",
+		"maxWidth": "750",
+		"maxHeight": "750"
+	},
+	{
+		"kb_id": "visible_modules_in_home_screen",
+		"title": "Visible modules in Home Screen",
+		"tags": "modules, tabs, visibile, visibility, home, page, browser",
+		"url": "https://app.imsdesk.com/knowledgebase/files/visible_modules_in_home_screen.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/16",
+		"maxWidth": "750"
+	},
+	{
+		"kb_id": "add_item_in_invoice",
+		"title": "Add/pick Item in Invoice/Purchase/Stock",
+		"tags": "add, pick, product, item, invoice, purchase, stock",
+		"url": "https://app.imsdesk.com/knowledgebase/files/add_item_in_invoice.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/18",
+		"maxWidth": "750",
+		"maxHeight": "550"
+	},
+	{
+		"kb_id": "update_invoice_date",
+		"title": "How can I update invoice date",
+		"tags": "update, change, invoide, date",
+		"url": "https://app.imsdesk.com/knowledgebase/files/update_invoice_date.md",
+		"external_link": "https://github.com/Erratums/ims-support/discussions/72",
+		"maxWidth": "800",
+		"maxHeight": "750"
+	}
+]

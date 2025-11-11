@@ -1,0 +1,35 @@
+name: Generate Files Index
+
+on:
+  push:
+    paths:
+      - 'docs/files/**/*.md'
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  generate-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Generate files-index.json
+        run: |
+          cd docs/files
+          python3 << 'EOF'
+          import json
+          import os
+          files = [f.replace('.md', '') for f in os.listdir('.') if f.endswith('.md')]
+          files.sort()
+          with open('../files-index.json', 'w') as f:
+              json.dump(files, f, indent=2)
+          EOF
+      
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add docs/files-index.json
+          git diff --staged --quiet || (git commit -m "Auto-update files-index.json" && git push)
+

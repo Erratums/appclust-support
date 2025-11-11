@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Help Center | AppClust Support</title>
+  <link rel="icon" type="image/svg+xml" href="https://www.appclust.com/logo.svg" />
+  <link rel="alternate icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 810 810'><g clip-path='url(%23clip1)'><path fill='%238100FF' d='M 81 685.554688 L 81.023438 685.554688 L 145.804688 685.578125 L 145.828125 685.554688 L 275.414062 461.113281 L 372.597656 629.449219 L 307.769531 629.449219 L 275.390625 573.347656 L 210.609375 685.554688 L 469.78125 685.554688 L 275.390625 348.882812 Z M 81 685.554688 '/></g><g clip-path='url(%23clip2)'><path fill='%238100FF' d='M 631.792969 517.21875 L 631.769531 517.21875 L 599.390625 573.347656 L 631.769531 629.449219 L 566.964844 629.449219 L 372.597656 292.78125 L 405 236.675781 L 437.378906 292.78125 L 502.207031 292.78125 L 405 124.421875 L 307.792969 292.753906 L 307.792969 292.78125 L 307.816406 292.78125 L 534.5625 685.554688 L 534.585938 685.554688 L 534.585938 685.578125 L 729 685.578125 Z M 631.792969 517.21875 '/></g><defs><clipPath id='clip1'><path d='M 81 348 L 470 348 L 470 685.335938 L 81 685.335938 Z M 81 348 '/></clipPath><clipPath id='clip2'><path d='M 307 124.335938 L 729 124.335938 L 729 685.335938 L 307 685.335938 Z M 307 124.335938 '/></clipPath></defs></svg>" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,6 +17,11 @@
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
           },
+          colors: {
+            'appclust': '#8100FF',
+            'appclust-dark': '#6a00cc',
+            'appclust-light': '#9d33ff',
+          }
         }
       }
     }
@@ -61,6 +68,31 @@
     }
 
     .modal-content {
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    /* WhatsApp Button Animation */
+    @keyframes ping {
+      75%, 100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+    .animate-ping {
+      animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .animate-modalSlideIn {
       animation: modalSlideIn 0.3s ease-out;
     }
 
@@ -111,7 +143,7 @@
     }
     .markdown-content code {
       background-color: #f1f5f9;
-      color: #2563eb;
+      color: #8100FF;
       padding: 0.25rem 0.5rem;
       border-radius: 0.25rem;
       font-size: 0.875rem;
@@ -126,7 +158,7 @@
       margin: 1rem 0;
     }
     .markdown-content blockquote {
-      border-left: 4px solid #3b82f6;
+      border-left: 4px solid #8100FF;
       padding-left: 1rem;
       margin: 1rem 0;
       font-style: italic;
@@ -138,34 +170,67 @@
     }
   </style>
 </head>
-<body class="bg-white antialiased">
+<body class="bg-gradient-to-b from-slate-50 to-white antialiased">
   <!-- Header -->
-  <header class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+  <header class="relative bg-gradient-to-br from-appclust via-appclust-dark to-appclust text-white overflow-hidden">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);"></div>
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);"></div>
     </div>
     
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+    <!-- Navigation Bar -->
+    <nav class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <a href="https://www.appclust.com" class="flex items-center gap-2 group">
+          <div class="h-6 w-6 group-hover:scale-110 transition-transform flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 810" class="h-full w-full">
+              <g clip-path="url(#clip1)">
+                <path fill="#ffffff" d="M 81 685.554688 L 81.023438 685.554688 L 145.804688 685.578125 L 145.828125 685.554688 L 275.414062 461.113281 L 372.597656 629.449219 L 307.769531 629.449219 L 275.390625 573.347656 L 210.609375 685.554688 L 469.78125 685.554688 L 275.390625 348.882812 Z M 81 685.554688 " />
+              </g>
+              <g clip-path="url(#clip2)">
+                <path fill="#ffffff" d="M 631.792969 517.21875 L 631.769531 517.21875 L 599.390625 573.347656 L 631.769531 629.449219 L 566.964844 629.449219 L 372.597656 292.78125 L 405 236.675781 L 437.378906 292.78125 L 502.207031 292.78125 L 405 124.421875 L 307.792969 292.753906 L 307.792969 292.78125 L 307.816406 292.78125 L 534.5625 685.554688 L 534.585938 685.554688 L 534.585938 685.578125 L 729 685.578125 Z M 631.792969 517.21875 " />
+              </g>
+              <defs>
+                <clipPath id="clip1"><path d="M 81 348 L 470 348 L 470 685.335938 L 81 685.335938 Z M 81 348 " /></clipPath>
+                <clipPath id="clip2"><path d="M 307 124.335938 L 729 124.335938 L 729 685.335938 L 307 685.335938 Z M 307 124.335938 " /></clipPath>
+              </defs>
+            </svg>
+          </div>
+          <span class="text-lg font-bold">AppClust</span>
+        </a>
+        <a href="https://www.appclust.com" class="text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-colors">
+          Back to AppClust →
+        </a>
+      </div>
+    </nav>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10 pt-4 text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm mb-4 border border-white/20">
+        <i class="fas fa-life-ring text-2xl text-white"></i>
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 text-white">
         Help Center
       </h1>
-      <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto">
-        Find answers and guides to get the most out of AppClust
+      <p class="text-base sm:text-lg text-white/90 max-w-2xl mx-auto">
+        Find answers, guides, and tutorials to get the most out of AppClust
       </p>
     </div>
   </header>
 
   <!-- Search Section -->
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 mb-12">
-    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 flex items-center px-6 py-4 focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500 transition-all">
-      <i class="fas fa-search text-slate-400 text-xl mr-4"></i>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20 mb-12">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/50 flex items-center px-6 py-5 focus-within:ring-4 focus-within:ring-appclust/20 focus-within:border-appclust transition-all backdrop-blur-sm">
+      <i class="fas fa-search text-appclust text-xl mr-4"></i>
       <input 
         type="text" 
         id="searchInput" 
         placeholder="Search articles, guides, and tutorials..." 
-        class="flex-1 text-slate-900 placeholder-slate-400 outline-none text-lg"
+        class="flex-1 text-slate-900 placeholder-slate-400 outline-none text-lg font-medium"
       />
+      <div class="hidden sm:flex items-center gap-2 text-xs text-slate-400 ml-4">
+        <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-200">⌘</kbd>
+        <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-200">K</kbd>
+      </div>
     </div>
   </div>
 
@@ -173,29 +238,225 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
     <!-- Recent Articles Section -->
     <div id="recentSection" style="display: none;">
-      <div class="mb-8">
-        <h2 class="text-3xl font-bold text-slate-900 mb-2">Recent Articles</h2>
-        <p class="text-slate-600">Latest updates and guides</p>
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-1 h-8 bg-gradient-to-b from-appclust to-appclust-light rounded-full"></div>
+          <div>
+            <h2 class="text-3xl font-bold text-slate-900">Recent Articles</h2>
+            <p class="text-slate-600 mt-1">Latest updates and guides</p>
+          </div>
+        </div>
       </div>
       <div id="recentArticles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
 
     <!-- Search Results Section -->
     <div id="searchResults" class="search-results" style="display: none;">
-      <div class="mb-8">
-        <h2 class="text-3xl font-bold text-slate-900 mb-2">Search Results</h2>
-        <p class="text-sm text-slate-500" id="resultsCount"></p>
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-1 h-8 bg-gradient-to-b from-appclust to-appclust-light rounded-full"></div>
+          <div>
+            <h2 class="text-3xl font-bold text-slate-900">Search Results</h2>
+            <p class="text-sm text-slate-500 mt-1" id="resultsCount"></p>
+          </div>
+        </div>
       </div>
       <div id="articlesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
   </div>
+
+  <!-- WhatsApp Floating Button -->
+  <button 
+    id="whatsappButton"
+    class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group"
+    aria-label="Chat with us on WhatsApp"
+  >
+    <div class="relative">
+      <!-- Tooltip (hidden on mobile) -->
+      <div class="hidden sm:block absolute right-full mr-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+        <div class="bg-slate-900 text-white text-sm font-medium px-4 py-2 rounded-lg whitespace-nowrap shadow-xl">
+          Chat with us on WhatsApp
+          <div class="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-slate-900"></div>
+        </div>
+      </div>
+      
+      <!-- Button -->
+      <div class="bg-gradient-to-br from-[#25D366] to-[#128C7E] hover:from-[#128C7E] hover:to-[#25D366] w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-3xl group-active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7 sm:w-8 sm:h-8">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+      </div>
+      
+      <!-- Pulse Animation -->
+      <div class="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-20"></div>
+    </div>
+  </button>
+
+  <!-- WhatsApp Options Modal -->
+  <div id="whatsappModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 sm:p-8 my-8 animate-modalSlideIn">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-gradient-to-br from-[#25D366] to-[#128C7E] flex items-center justify-center shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-slate-900">How can we help you?</h3>
+            <p class="text-sm text-slate-600 mt-1">Choose a support option to get started</p>
+          </div>
+        </div>
+        <button id="closeWhatsappModal" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Options Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <!-- General Support -->
+        <a 
+          href="https://wa.me/919633016479?text=Hello%2C%20I%20need%20general%20support%20with%20AppClust." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="group relative overflow-hidden rounded-xl border-2 border-slate-200 hover:border-[#25D366] bg-gradient-to-br from-slate-50 to-white p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+        >
+          <div class="absolute top-0 right-0 w-20 h-20 bg-[#25D366]/10 rounded-bl-full"></div>
+          <div class="relative">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+              </svg>
+            </div>
+            <h4 class="font-bold text-slate-900 mb-2 text-lg">General Support</h4>
+            <p class="text-sm text-slate-600 mb-4">Get help with general questions and inquiries</p>
+            <div class="flex items-center text-[#25D366] font-semibold text-sm">
+              <span>Start Chat</span>
+              <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Billing Support -->
+        <a 
+          href="https://wa.me/919643326479?text=Hello%2C%20I%20need%20help%20with%20billing%20or%20payment%20related%20questions." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="group relative overflow-hidden rounded-xl border-2 border-slate-200 hover:border-[#25D366] bg-gradient-to-br from-slate-50 to-white p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+        >
+          <div class="absolute top-0 right-0 w-20 h-20 bg-[#25D366]/10 rounded-bl-full"></div>
+          <div class="relative">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7">
+                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+              </svg>
+            </div>
+            <h4 class="font-bold text-slate-900 mb-2 text-lg">Billing Support</h4>
+            <p class="text-sm text-slate-600 mb-4">Questions about payments, invoices, or subscriptions</p>
+            <div class="flex items-center text-[#25D366] font-semibold text-sm">
+              <span>Start Chat</span>
+              <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Developer Support -->
+        <a 
+          href="https://wa.me/919160128487?text=Hello%2C%20I%20need%20developer%20support%20or%20technical%20assistance%20with%20AppClust." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="group relative overflow-hidden rounded-xl border-2 border-slate-200 hover:border-[#25D366] bg-gradient-to-br from-slate-50 to-white p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+        >
+          <div class="absolute top-0 right-0 w-20 h-20 bg-[#25D366]/10 rounded-bl-full"></div>
+          <div class="relative">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7">
+                <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+              </svg>
+            </div>
+            <h4 class="font-bold text-slate-900 mb-2 text-lg">Developer Support</h4>
+            <p class="text-sm text-slate-600 mb-4">Technical assistance for developers and integrations</p>
+            <div class="flex items-center text-[#25D366] font-semibold text-sm">
+              <span>Start Chat</span>
+              <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- Report Bug -->
+        <a 
+          href="https://wa.me/919633016479?text=Hello%2C%20I%20would%20like%20to%20report%20a%20bug%20or%20issue%20I%20encountered%20in%20AppClust." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="group relative overflow-hidden rounded-xl border-2 border-slate-200 hover:border-[#25D366] bg-gradient-to-br from-slate-50 to-white p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+        >
+          <div class="absolute top-0 right-0 w-20 h-20 bg-[#25D366]/10 rounded-bl-full"></div>
+          <div class="relative">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+              </svg>
+            </div>
+            <h4 class="font-bold text-slate-900 mb-2 text-lg">Report Bug</h4>
+            <p class="text-sm text-slate-600 mb-4">Found an issue? Let us know and we'll fix it</p>
+            <div class="flex items-center text-[#25D366] font-semibold text-sm">
+              <span>Start Chat</span>
+              <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <div class="pt-6 border-t border-slate-200">
+        <p class="text-xs text-slate-500 text-center">
+          <i class="fas fa-clock mr-1"></i>
+          We typically respond within a few minutes
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-50 border-t border-slate-200 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="h-6 w-6 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 810" class="h-full w-full">
+              <g clip-path="url(#footer-clip1)">
+                <path fill="#8100FF" d="M 81 685.554688 L 81.023438 685.554688 L 145.804688 685.578125 L 145.828125 685.554688 L 275.414062 461.113281 L 372.597656 629.449219 L 307.769531 629.449219 L 275.390625 573.347656 L 210.609375 685.554688 L 469.78125 685.554688 L 275.390625 348.882812 Z M 81 685.554688 " />
+              </g>
+              <g clip-path="url(#footer-clip2)">
+                <path fill="#8100FF" d="M 631.792969 517.21875 L 631.769531 517.21875 L 599.390625 573.347656 L 631.769531 629.449219 L 566.964844 629.449219 L 372.597656 292.78125 L 405 236.675781 L 437.378906 292.78125 L 502.207031 292.78125 L 405 124.421875 L 307.792969 292.753906 L 307.792969 292.78125 L 307.816406 292.78125 L 534.5625 685.554688 L 534.585938 685.554688 L 534.585938 685.578125 L 729 685.578125 Z M 631.792969 517.21875 " />
+              </g>
+              <defs>
+                <clipPath id="footer-clip1"><path d="M 81 348 L 470 348 L 470 685.335938 L 81 685.335938 Z M 81 348 " /></clipPath>
+                <clipPath id="footer-clip2"><path d="M 307 124.335938 L 729 124.335938 L 729 685.335938 L 307 685.335938 Z M 307 124.335938 " /></clipPath>
+              </defs>
+            </svg>
+          </div>
+          <span class="text-slate-600 text-sm">© 2025 AppClust. All rights reserved.</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="https://www.appclust.com" class="text-slate-600 hover:text-appclust text-sm font-medium transition-colors">
+            Visit AppClust
+          </a>
+          <a href="https://www.appclust.com" class="text-slate-600 hover:text-appclust text-sm font-medium transition-colors">
+            Support
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <!-- Modal -->
   <div id="articleModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-start justify-center p-4 overflow-y-auto">
     <div class="modal-content bg-white rounded-2xl shadow-2xl max-w-4xl w-full my-8 max-h-[90vh] flex flex-col">
       <!-- Modal Header -->
       <div class="sticky top-0 bg-white border-b border-slate-200 rounded-t-2xl px-6 sm:px-8 py-6 z-10">
-        <button id="closeModal" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-600 flex items-center justify-center transition-all duration-200 hover:rotate-90">
+        <button id="closeModal" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 hover:bg-appclust hover:text-white text-slate-600 flex items-center justify-center transition-all duration-200 hover:rotate-90">
           <i class="fas fa-times"></i>
         </button>
         <h2 id="modalTitle" class="text-2xl sm:text-3xl font-bold text-slate-900 pr-12"></h2>
@@ -204,18 +465,18 @@
       <!-- Modal Body -->
       <div id="modalBody" class="flex-1 overflow-y-auto px-6 sm:px-8 py-6">
         <div class="text-center py-12">
-          <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <div class="inline-block w-10 h-10 border-4 border-appclust border-t-transparent rounded-full animate-spin mb-4"></div>
           <p class="text-slate-600">Loading content...</p>
         </div>
       </div>
 
       <!-- Modal Footer -->
       <div class="sticky bottom-0 bg-white border-t border-slate-200 rounded-b-2xl px-6 sm:px-8 py-4 flex items-center justify-between">
-        <a href="#" id="externalLink" class="text-slate-600 hover:text-blue-600 text-sm font-medium flex items-center gap-2 transition-colors" target="_blank" style="display: none;">
+        <a href="#" id="externalLink" class="text-slate-600 hover:text-appclust text-sm font-medium flex items-center gap-2 transition-colors" target="_blank" style="display: none;">
           <i class="fas fa-external-link-alt"></i>
           <span>View Discussion</span>
         </a>
-        <button class="close-modal-btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold transition-colors">
+        <button class="close-modal-btn bg-appclust hover:bg-appclust-dark text-white px-6 py-2.5 rounded-lg font-semibold transition-colors shadow-lg hover:shadow-xl">
           Close
         </button>
       </div>
@@ -226,19 +487,106 @@
     let articles = [];
     let searchQuery = '';
 
-    // Load articles from list.json
+    // Dynamically discover and load articles from markdown files
     async function loadArticles() {
       try {
-        const response = await fetch('list.json');
-        articles = await response.json();
-        
-        // Update local URLs to point to files directory
-        articles = articles.map(article => ({
-          ...article,
-          url: article.url.replace(/^https?:\/\/[^\/]+/, '') || `files/${article.kb_id}.md`
-        }));
+        // Try to get list of markdown files from auto-generated index
+        let fileList = [];
+        try {
+          const indexResponse = await fetch('files-index.json');
+          if (indexResponse.ok) {
+            fileList = await indexResponse.json();
+          }
+        } catch (e) {
+          console.log('files-index.json not found, trying list.json fallback');
+        }
 
-        // Show last 3 articles on homepage
+        // Fallback to list.json if files-index.json doesn't exist
+        if (fileList.length === 0) {
+          try {
+            const listResponse = await fetch('list.json');
+            const listData = await listResponse.json();
+            fileList = listData.map(item => item.kb_id || item.url?.split('/').pop()?.replace('.md', ''));
+          } catch (e) {
+            console.log('list.json also not found');
+          }
+        }
+
+        // If we still have no files, show error
+        if (fileList.length === 0) {
+          throw new Error('No file list available');
+        }
+
+        // Fetch and parse each markdown file to extract metadata
+        articles = await Promise.all(
+          fileList.map(async (filename) => {
+            const kbId = filename.replace('.md', '');
+            const fileUrl = `files/${kbId}.md`;
+            
+            try {
+              const response = await fetch(fileUrl);
+              if (!response.ok) throw new Error('File not found');
+              
+              const markdown = await response.text();
+              
+              // Extract title from first heading
+              let title = kbId.replace(/_/g, ' ')
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+              
+              const headingMatch = markdown.match(/^#+\s+(.+)$/m);
+              if (headingMatch) {
+                title = headingMatch[1]
+                  .replace(/\*\*/g, '')
+                  .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+                  .trim();
+              }
+              
+              // Extract tags from frontmatter or generate from filename
+              let tags = '';
+              const frontmatterMatch = markdown.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
+              if (frontmatterMatch) {
+                const frontmatter = frontmatterMatch[1];
+                const tagsMatch = frontmatter.match(/^tags?:\s*(.+)$/mi);
+                if (tagsMatch) {
+                  tags = tagsMatch[1].trim();
+                }
+              }
+              
+              if (!tags) {
+                const words = kbId.split('_').filter(w => w.length > 2);
+                tags = words.join(', ');
+              }
+              
+              // Try to find external link
+              let externalLink = '';
+              const linkMatch = markdown.match(/https?:\/\/github\.com\/[^\/]+\/[^\/]+\/discussions\/\d+/);
+              if (linkMatch) {
+                externalLink = linkMatch[0];
+              }
+              
+              return {
+                kb_id: kbId,
+                title: title,
+                tags: tags,
+                url: fileUrl,
+                external_link: externalLink || null
+              };
+            } catch (error) {
+              // If file doesn't exist, return null and filter it out
+              return null;
+            }
+          })
+        );
+
+        // Filter out null entries (files that don't exist)
+        articles = articles.filter(article => article !== null);
+        
+        // Sort by filename (newest first - assuming newer files have later alphabetical names)
+        articles.sort((a, b) => b.kb_id.localeCompare(a.kb_id));
+
+        // Show last 6 articles on homepage
         showRecentArticles();
       } catch (error) {
         console.error('Error loading articles:', error);
@@ -279,7 +627,7 @@
       
       if (articles.length === 0) return;
       
-      const recentArticles = articles.slice(-6).reverse(); // Last 6, newest first
+      const recentArticles = articles.slice(0, 6); // First 6 (already sorted newest first)
       
       recentContainer.innerHTML = recentArticles.map(article => createArticleCard(article)).join('');
       recentSection.style.display = 'block';
@@ -350,35 +698,35 @@
     function createArticleCard(article) {
       const icon = getArticleIcon(article.tags);
       const iconColors = {
-        'fa-sign-in-alt': 'from-blue-500 to-blue-600',
-        'fa-id-card': 'from-purple-500 to-purple-600',
-        'fa-file-invoice': 'from-green-500 to-green-600',
-        'fa-box': 'from-orange-500 to-orange-600',
-        'fa-search': 'from-cyan-500 to-cyan-600',
-        'fa-chart-bar': 'from-indigo-500 to-indigo-600',
-        'fa-cookie': 'from-amber-500 to-amber-600',
-        'fa-th-large': 'from-pink-500 to-pink-600',
-        'fa-building': 'from-slate-500 to-slate-600',
-        'fa-phone': 'from-teal-500 to-teal-600',
-        'fa-file-alt': 'from-blue-500 to-indigo-600'
+        'fa-sign-in-alt': 'from-appclust to-appclust-light',
+        'fa-id-card': 'from-appclust to-appclust-light',
+        'fa-file-invoice': 'from-appclust to-appclust-light',
+        'fa-box': 'from-appclust to-appclust-light',
+        'fa-search': 'from-appclust to-appclust-light',
+        'fa-chart-bar': 'from-appclust to-appclust-light',
+        'fa-cookie': 'from-appclust to-appclust-light',
+        'fa-th-large': 'from-appclust to-appclust-light',
+        'fa-building': 'from-appclust to-appclust-light',
+        'fa-phone': 'from-appclust to-appclust-light',
+        'fa-file-alt': 'from-appclust to-appclust-light'
       };
-      const iconColor = iconColors[icon] || 'from-blue-500 to-indigo-600';
+      const iconColor = iconColors[icon] || 'from-appclust to-appclust-light';
       
       return `
-        <div class="article-card bg-white rounded-xl border border-slate-200 p-6 cursor-pointer hover:shadow-xl hover:border-blue-300 group" data-kb-id="${article.kb_id}">
+        <div class="article-card bg-white rounded-xl border border-slate-200/60 p-6 cursor-pointer hover:shadow-2xl hover:border-appclust/30 hover:-translate-y-1 group transition-all duration-300" data-kb-id="${article.kb_id}">
           <div class="flex items-start gap-4 mb-4">
-            <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br ${iconColor} flex items-center justify-center text-white text-lg shadow-lg group-hover:scale-110 transition-transform">
+            <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br ${iconColor} flex items-center justify-center text-white text-xl shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300">
               <i class="${icon}"></i>
             </div>
-            <h3 class="text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors flex-1 leading-snug">${article.title}</h3>
+            <h3 class="text-lg font-semibold text-slate-900 group-hover:text-appclust transition-colors flex-1 leading-snug">${article.title}</h3>
           </div>
           <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-            <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all" onclick="event.preventDefault(); event.stopPropagation();">
+            <a href="#" class="text-appclust hover:text-appclust-dark font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all" onclick="event.preventDefault(); event.stopPropagation();">
               Read Article
               <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
             </a>
             ${article.external_link ? `
-              <a href="${article.external_link}" class="text-slate-400 hover:text-blue-600 transition-colors" target="_blank" onclick="event.stopPropagation()">
+              <a href="${article.external_link}" class="text-slate-400 hover:text-appclust transition-colors" target="_blank" onclick="event.stopPropagation()">
                 <i class="fas fa-comments"></i>
               </a>
             ` : ''}
@@ -512,10 +860,41 @@
       }
     });
 
-    // Escape key to close modal
+    // WhatsApp Modal Functions
+    const whatsappButton = document.getElementById('whatsappButton');
+    const whatsappModal = document.getElementById('whatsappModal');
+    const closeWhatsappModal = document.getElementById('closeWhatsappModal');
+
+    whatsappButton.addEventListener('click', () => {
+      whatsappModal.classList.remove('hidden');
+      whatsappModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeWhatsappModal.addEventListener('click', () => {
+      whatsappModal.classList.add('hidden');
+      whatsappModal.classList.remove('flex');
+      document.body.style.overflow = '';
+    });
+
+    whatsappModal.addEventListener('click', (e) => {
+      if (e.target.id === 'whatsappModal') {
+        whatsappModal.classList.add('hidden');
+        whatsappModal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Escape key to close modals
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        closeModal();
+        if (!whatsappModal.classList.contains('hidden')) {
+          whatsappModal.classList.add('hidden');
+          whatsappModal.classList.remove('flex');
+          document.body.style.overflow = '';
+        } else {
+          closeModal();
+        }
       }
     });
 

@@ -315,7 +315,7 @@
             <nav class="mb-6" aria-label="Breadcrumb">
               <ol class="flex items-center space-x-2 text-sm">
                 <li>
-                  <a href="/" class="text-slate-500 hover:text-appclust transition-colors">Home</a>
+                  <a href="#" onclick="event.preventDefault(); navigateHome();" class="text-slate-500 hover:text-appclust transition-colors">Home</a>
                 </li>
                 <li class="text-slate-400">
                   <i class="fas fa-chevron-right text-xs"></i>
@@ -885,7 +885,7 @@
             <h3 class="text-lg font-semibold text-slate-900 group-hover:text-appclust transition-colors flex-1 leading-snug">${article.title}</h3>
           </div>
           <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-            <a href="/article/${article.kb_id}" class="text-appclust hover:text-appclust-dark font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all" onclick="event.preventDefault(); event.stopPropagation(); handleArticleClick('${article.kb_id}');">
+            <a href="#article/${article.kb_id}" class="text-appclust hover:text-appclust-dark font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all" onclick="event.preventDefault(); event.stopPropagation(); handleArticleClick('${article.kb_id}');">
               Read Article
               <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
             </a>
@@ -965,7 +965,7 @@
     // Create sidebar article card
     function createSidebarArticleCard(article) {
       return `
-        <a href="/article/${article.kb_id}" class="block group p-4 rounded-xl border border-slate-200 hover:border-appclust/50 hover:bg-slate-50 transition-all" onclick="event.preventDefault(); navigateToArticle('${article.kb_id}');">
+        <a href="#article/${article.kb_id}" class="block group p-4 rounded-xl border border-slate-200 hover:border-appclust/50 hover:bg-slate-50 transition-all" onclick="event.preventDefault(); navigateToArticle('${article.kb_id}');">
           <h4 class="font-semibold text-slate-900 group-hover:text-appclust transition-colors mb-2 line-clamp-2">${article.title}</h4>
           <div class="flex items-center gap-2 text-xs text-slate-500">
             <i class="fas fa-clock"></i>
@@ -975,11 +975,11 @@
       `;
     }
 
-    // Navigate to article (using History API)
+    // Navigate to article (using hash routing)
     function navigateToArticle(kbId) {
-      const path = `/article/${kbId}`;
-      window.history.pushState({ path }, '', path);
-      openArticle(kbId);
+      // Set hash - this will trigger hashchange event which calls handleRoute
+      // So we don't need to call openArticle directly here
+      window.location.hash = `#article/${kbId}`;
     }
 
     // Handle article click
@@ -1004,7 +1004,7 @@
       window.scrollTo(0, 0);
 
       // Update page title and meta tags for SEO
-      const fullUrl = window.location.origin + window.location.pathname.replace(/\/$/, '') + `/article/${kbId}`;
+      const fullUrl = window.location.origin + window.location.pathname + `#article/${kbId}`;
       document.title = `${article.title} | AppClust Support`;
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
@@ -1034,7 +1034,7 @@
       try {
         let url = article.url;
         if (!url.startsWith('http')) {
-          // Use absolute path to avoid issues with relative paths in /article/ routes
+          // Use absolute path for markdown files
           url = `/files/${kbId}.md`;
         }
         
@@ -1093,7 +1093,7 @@
         }
 
         // Set up share buttons
-        const currentUrl = window.location.origin + window.location.pathname.replace(/\/$/, '') + `/article/${kbId}`;
+        const currentUrl = window.location.origin + window.location.pathname + `#article/${kbId}`;
         const shareText = encodeURIComponent(`Check out this guide: ${article.title}`);
         
         document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${shareText}`;
@@ -1146,7 +1146,7 @@
 
     // Navigate to home
     function navigateHome() {
-      window.history.pushState({ path: '/' }, '', '/');
+      window.location.hash = '';
       document.getElementById('homePage').classList.remove('hidden');
       document.getElementById('articlePage').classList.add('hidden');
       document.title = 'Help Center | AppClust Support';
@@ -1159,35 +1159,25 @@
       }
     }
 
-    // Handle routing
+    // Handle routing (hash-based)
     function handleRoute() {
-      // Check for redirect parameter (from 404.html)
-      const urlParams = new URLSearchParams(window.location.search);
-      const redirectPath = urlParams.get('redirect');
+      const hash = window.location.hash;
       
-      if (redirectPath) {
-        // Clean up URL by removing the redirect parameter
-        const newUrl = window.location.origin + redirectPath;
-        window.history.replaceState({ path: redirectPath }, '', redirectPath);
-        // Process the redirected path
-        if (redirectPath.startsWith('/article/')) {
-          const kbId = redirectPath.replace('/article/', '');
-          openArticle(kbId);
+      if (hash.startsWith('#article/')) {
+        const kbId = hash.replace('#article/', '').split('?')[0].split('#')[0];
+        if (kbId) {
+          // Wait for articles to load if needed
+          if (articles.length === 0) {
+            loadArticles().then(() => {
+              openArticle(kbId);
+            });
+          } else {
+            openArticle(kbId);
+          }
         } else {
           navigateHome();
         }
-        return;
-      }
-      
-      const path = window.location.pathname;
-      
-      if (path.startsWith('/article/')) {
-        const kbId = path.replace('/article/', '');
-        openArticle(kbId);
-      } else if (path === '/' || path === '' || path === '/index.html') {
-        navigateHome();
       } else {
-        // Unknown route, redirect to home
         navigateHome();
       }
     }
@@ -1259,21 +1249,21 @@
       }
     });
 
-    // Handle browser back/forward buttons
-    window.addEventListener('popstate', (e) => {
+    // Handle hash changes (browser back/forward, direct navigation)
+    window.addEventListener('hashchange', () => {
       handleRoute();
     });
 
     // Handle sidebar article clicks (delegated event listener)
     document.addEventListener('click', (e) => {
-      const articleLink = e.target.closest('a[href^="/article/"]');
+      const articleLink = e.target.closest('a[href^="#article/"]');
       if (articleLink && !e.target.closest('.article-card')) {
         e.preventDefault();
         const href = articleLink.getAttribute('href');
-        const kbId = href.replace('/article/', '');
+        const kbId = href.replace('#article/', '');
         navigateToArticle(kbId);
       }
-      if (e.target.closest('a[href="/"]')) {
+      if (e.target.closest('a[href="#"]') || e.target.closest('a[href="/"]')) {
         e.preventDefault();
         navigateHome();
       }
@@ -1282,7 +1272,7 @@
     // Initialize
     loadArticles();
     
-    // Handle initial route on page load
+    // Handle initial route on page load (check hash)
     handleRoute();
   </script>
 </body>

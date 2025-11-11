@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting...</title>
+  <script>
+    // GitHub Pages 404 handler - redirect to index.html with the path preserved
+    // This allows client-side routing to work on page reload
+    const path = window.location.pathname;
+    const search = window.location.search;
+    const hash = window.location.hash;
+    
+    // Redirect to index.html with the original path as a query parameter
+    // The index.html will handle the routing
+    window.location.replace('/index.html?redirect=' + encodeURIComponent(path + search + hash));
+  </script>
+</head>
+<body>
+  <div style="display: flex; align-items: center; justify-content: center; height: 100vh; font-family: system-ui, sans-serif;">
+    <p>Redirecting...</p>
+  </div>
+</body>
+</html>
+

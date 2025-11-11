@@ -3,135 +3,524 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Helpdesk | AppClust Docs</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>Help Center | AppClust Support</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --bg: #f9fafb;
-      --card-bg: #fff;
-      --primary: #2563eb;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --radius: 14px;
-      --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    * { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      background: var(--bg);
-      font-family: 'Inter', sans-serif;
-      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
 
-    header {
-      background: var(--primary);
-      color: #fff;
-      padding: 2rem 1rem;
-      text-align: center;
+    /* Smooth animations */
+    .article-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 1.8rem;
+    .article-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Modal animation */
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-content {
+      animation: modalSlideIn 0.3s ease-out;
+    }
+
+    /* Markdown content styling */
+    .markdown-content h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .markdown-content h2 {
+      font-size: 1.5rem;
       font-weight: 600;
+      color: #0f172a;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
     }
-
-    header p {
-      margin: 0.5rem 0 0;
-      color: #dbeafe;
-      font-size: 1rem;
-    }
-
-    main {
-      max-width: 960px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.5rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-    }
-
-    .card h2 {
-      font-size: 1.2rem;
-      margin: 0 0 0.5rem;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    .card a {
-      display: inline-block;
-      margin-top: 0.75rem;
-      color: var(--primary);
+    .markdown-content h3 {
+      font-size: 1.25rem;
       font-weight: 600;
-      text-decoration: none;
+      color: #0f172a;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
     }
-
-    .card a:hover {
-      text-decoration: underline;
+    .markdown-content p {
+      color: #475569;
+      margin-bottom: 1rem;
+      line-height: 1.75;
     }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin: 2rem 0;
+    .markdown-content ul, .markdown-content ol {
+      list-style-type: disc;
+      list-style-position: inside;
+      margin-bottom: 1rem;
+      margin-left: 1rem;
+      color: #475569;
+    }
+    .markdown-content li {
+      margin-bottom: 0.5rem;
+    }
+    .markdown-content img {
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      margin: 1.5rem 0;
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .markdown-content code {
+      background-color: #f1f5f9;
+      color: #2563eb;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      font-family: 'Monaco', 'Courier New', monospace;
+    }
+    .markdown-content pre {
+      background-color: #0f172a;
+      color: #f1f5f9;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .markdown-content blockquote {
+      border-left: 4px solid #3b82f6;
+      padding-left: 1rem;
+      margin: 1rem 0;
+      font-style: italic;
+      color: #64748b;
+    }
+    .markdown-content strong {
+      font-weight: 600;
+      color: #0f172a;
     }
   </style>
 </head>
-<body>
-  <header>
-    <h1>AppClust Helpdesk</h1>
-    <p>Your one-stop guide for setup, tutorials, and troubleshooting</p>
+<body class="bg-white antialiased">
+  <!-- Header -->
+  <header class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+        Help Center
+      </h1>
+      <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto">
+        Find answers and guides to get the most out of AppClust
+      </p>
+    </div>
   </header>
 
-  <main>
-    <div class="card">
-      <h2>Getting Started</h2>
-      <p>Learn how to set up your AppClust account and start creating apps in minutes.</p>
-      <a href="getting-started.md">Read Article →</a>
+  <!-- Search Section -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 mb-12">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 flex items-center px-6 py-4 focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500 transition-all">
+      <i class="fas fa-search text-slate-400 text-xl mr-4"></i>
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search articles, guides, and tutorials..." 
+        class="flex-1 text-slate-900 placeholder-slate-400 outline-none text-lg"
+      />
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <!-- Recent Articles Section -->
+    <div id="recentSection" style="display: none;">
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold text-slate-900 mb-2">Recent Articles</h2>
+        <p class="text-slate-600">Latest updates and guides</p>
+      </div>
+      <div id="recentArticles" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
 
-    <div class="card">
-      <h2>Integrating YouTube Videos</h2>
-      <p>Embed and manage tutorial videos inside your helpdesk content using HTML and Markdown.</p>
-      <a href="video-guide.md">Read Article →</a>
+    <!-- Search Results Section -->
+    <div id="searchResults" class="search-results" style="display: none;">
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold text-slate-900 mb-2">Search Results</h2>
+        <p class="text-sm text-slate-500" id="resultsCount"></p>
+      </div>
+      <div id="articlesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </div>
+  </div>
 
-    <div class="card">
-      <h2>Common Issues</h2>
-      <p>Find answers to frequently asked questions and solutions to common problems.</p>
-      <a href="faq.md">Read Article →</a>
+  <!-- Modal -->
+  <div id="articleModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-start justify-center p-4 overflow-y-auto">
+    <div class="modal-content bg-white rounded-2xl shadow-2xl max-w-4xl w-full my-8 max-h-[90vh] flex flex-col">
+      <!-- Modal Header -->
+      <div class="sticky top-0 bg-white border-b border-slate-200 rounded-t-2xl px-6 sm:px-8 py-6 z-10">
+        <button id="closeModal" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-600 flex items-center justify-center transition-all duration-200 hover:rotate-90">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2 id="modalTitle" class="text-2xl sm:text-3xl font-bold text-slate-900 pr-12"></h2>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="modalBody" class="flex-1 overflow-y-auto px-6 sm:px-8 py-6">
+        <div class="text-center py-12">
+          <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="text-slate-600">Loading content...</p>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="sticky bottom-0 bg-white border-t border-slate-200 rounded-b-2xl px-6 sm:px-8 py-4 flex items-center justify-between">
+        <a href="#" id="externalLink" class="text-slate-600 hover:text-blue-600 text-sm font-medium flex items-center gap-2 transition-colors" target="_blank" style="display: none;">
+          <i class="fas fa-external-link-alt"></i>
+          <span>View Discussion</span>
+        </a>
+        <button class="close-modal-btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold transition-colors">
+          Close
+        </button>
+      </div>
     </div>
+  </div>
 
-    <div class="card">
-      <h2>Join the Discussion</h2>
-      <p>Connect with our community, share feedback, and explore user discussions.</p>
-      <a href="https://github.com/yourorg/yourrepo/discussions">Open Discussions →</a>
-    </div>
-  </main>
+  <script>
+    let articles = [];
+    let searchQuery = '';
 
-  <footer>
-    © 2025 AppClust • Built with ❤️ using GitHub Pages
-  </footer>
+    // Load articles from list.json
+    async function loadArticles() {
+      try {
+        const response = await fetch('list.json');
+        articles = await response.json();
+        
+        // Update local URLs to point to files directory
+        articles = articles.map(article => ({
+          ...article,
+          url: article.url.replace(/^https?:\/\/[^\/]+/, '') || `files/${article.kb_id}.md`
+        }));
+
+        // Show last 3 articles on homepage
+        showRecentArticles();
+      } catch (error) {
+        console.error('Error loading articles:', error);
+        const isCorsError = error.message.includes('CORS') || 
+                           error.message.includes('Failed to fetch') ||
+                           window.location.protocol === 'file:';
+        
+        document.getElementById('recentSection').innerHTML = `
+          <div class="col-span-full text-center py-16">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-4">
+              <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">Error Loading Articles</h3>
+            ${isCorsError ? `
+              <p class="text-slate-600 mb-4"><strong>CORS Error Detected</strong></p>
+              <p class="text-slate-600 mb-6">You're opening this file directly from the file system. To test locally, you need to run a local server.</p>
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 max-w-2xl mx-auto text-left">
+                <p class="font-semibold text-slate-900 mb-3">Quick Fix:</p>
+                <ol class="list-decimal list-inside space-y-2 text-slate-600">
+                  <li>Open Terminal in the <code class="bg-slate-200 px-2 py-1 rounded">docs</code> folder</li>
+                  <li>Run: <code class="bg-slate-200 px-2 py-1 rounded">python3 -m http.server 8000</code></li>
+                  <li>Open: <code class="bg-slate-200 px-2 py-1 rounded">http://localhost:8000</code> in your browser</li>
+                </ol>
+              </div>
+              <p class="text-sm text-slate-500 mt-4">Note: This works automatically on GitHub Pages (no server needed).</p>
+            ` : `
+              <p class="text-slate-600">Unable to load articles. Please refresh the page.</p>
+            `}
+          </div>
+        `;
+      }
+    }
+
+    // Show last 6 articles
+    function showRecentArticles() {
+      const recentSection = document.getElementById('recentSection');
+      const recentContainer = document.getElementById('recentArticles');
+      
+      if (articles.length === 0) return;
+      
+      const recentArticles = articles.slice(-6).reverse(); // Last 6, newest first
+      
+      recentContainer.innerHTML = recentArticles.map(article => createArticleCard(article)).join('');
+      recentSection.style.display = 'block';
+      
+      // Add click handlers
+      recentContainer.querySelectorAll('.article-card').forEach(card => {
+        card.addEventListener('click', () => {
+          openArticle(card.dataset.kbId);
+        });
+      });
+    }
+
+    // Filter articles by search query
+    function getFilteredArticles() {
+      if (!searchQuery) return [];
+      
+      return articles.filter(article => {
+        const titleMatch = article.title.toLowerCase().includes(searchQuery.toLowerCase());
+        const tagsMatch = article.tags && article.tags.toLowerCase().includes(searchQuery.toLowerCase());
+        return titleMatch || tagsMatch;
+      });
+    }
+
+    // Render search results
+    function renderSearchResults() {
+      const searchResults = document.getElementById('searchResults');
+      const container = document.getElementById('articlesContainer');
+      const resultsCount = document.getElementById('resultsCount');
+      const recentSection = document.getElementById('recentSection');
+      
+      if (!searchQuery.trim()) {
+        searchResults.style.display = 'none';
+        recentSection.style.display = 'block';
+        return;
+      }
+
+      recentSection.style.display = 'none';
+      searchResults.style.display = 'block';
+      
+      const filtered = getFilteredArticles();
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full text-center py-16">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+              <i class="fas fa-search text-slate-400 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">No articles found</h3>
+            <p class="text-slate-600">Try adjusting your search terms or browse recent articles above.</p>
+          </div>
+        `;
+        resultsCount.textContent = 'No results found';
+        return;
+      }
+
+      resultsCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'article' : 'articles'} found`;
+      container.innerHTML = filtered.map(article => createArticleCard(article)).join('');
+
+      // Add click handlers
+      container.querySelectorAll('.article-card').forEach(card => {
+        card.addEventListener('click', () => {
+          openArticle(card.dataset.kbId);
+        });
+      });
+    }
+
+    // Create article card HTML
+    function createArticleCard(article) {
+      const icon = getArticleIcon(article.tags);
+      const iconColors = {
+        'fa-sign-in-alt': 'from-blue-500 to-blue-600',
+        'fa-id-card': 'from-purple-500 to-purple-600',
+        'fa-file-invoice': 'from-green-500 to-green-600',
+        'fa-box': 'from-orange-500 to-orange-600',
+        'fa-search': 'from-cyan-500 to-cyan-600',
+        'fa-chart-bar': 'from-indigo-500 to-indigo-600',
+        'fa-cookie': 'from-amber-500 to-amber-600',
+        'fa-th-large': 'from-pink-500 to-pink-600',
+        'fa-building': 'from-slate-500 to-slate-600',
+        'fa-phone': 'from-teal-500 to-teal-600',
+        'fa-file-alt': 'from-blue-500 to-indigo-600'
+      };
+      const iconColor = iconColors[icon] || 'from-blue-500 to-indigo-600';
+      
+      return `
+        <div class="article-card bg-white rounded-xl border border-slate-200 p-6 cursor-pointer hover:shadow-xl hover:border-blue-300 group" data-kb-id="${article.kb_id}">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br ${iconColor} flex items-center justify-center text-white text-lg shadow-lg group-hover:scale-110 transition-transform">
+              <i class="${icon}"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors flex-1 leading-snug">${article.title}</h3>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+            <a href="#" class="text-blue-600 hover:text-blue-700 font-semibold text-sm flex items-center gap-2 group-hover:gap-3 transition-all" onclick="event.preventDefault(); event.stopPropagation();">
+              Read Article
+              <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            ${article.external_link ? `
+              <a href="${article.external_link}" class="text-slate-400 hover:text-blue-600 transition-colors" target="_blank" onclick="event.stopPropagation()">
+                <i class="fas fa-comments"></i>
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    // Get icon based on tags
+    function getArticleIcon(tags) {
+      if (!tags) return 'fas fa-file-alt';
+      const tagStr = tags.toLowerCase();
+      if (tagStr.includes('login') || tagStr.includes('sign')) return 'fas fa-sign-in-alt';
+      if (tagStr.includes('rfid')) return 'fas fa-id-card';
+      if (tagStr.includes('invoice') || tagStr.includes('bill')) return 'fas fa-file-invoice';
+      if (tagStr.includes('product') || tagStr.includes('item')) return 'fas fa-box';
+      if (tagStr.includes('search')) return 'fas fa-search';
+      if (tagStr.includes('report')) return 'fas fa-chart-bar';
+      if (tagStr.includes('cookie')) return 'fas fa-cookie';
+      if (tagStr.includes('module')) return 'fas fa-th-large';
+      if (tagStr.includes('company') || tagStr.includes('organization')) return 'fas fa-building';
+      if (tagStr.includes('phone') || tagStr.includes('mobile')) return 'fas fa-phone';
+      return 'fas fa-file-alt';
+    }
+
+    // Open article modal
+    async function openArticle(kbId) {
+      const article = articles.find(a => a.kb_id === kbId);
+      if (!article) return;
+
+      const modal = document.getElementById('articleModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+      const externalLink = document.getElementById('externalLink');
+
+      modalTitle.textContent = article.title;
+      modalBody.innerHTML = `
+        <div class="text-center py-12">
+          <div class="inline-block w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="text-slate-600">Loading content...</p>
+        </div>
+      `;
+
+      if (article.external_link) {
+        externalLink.href = article.external_link;
+        externalLink.style.display = 'flex';
+      } else {
+        externalLink.style.display = 'none';
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+
+      try {
+        let url = article.url;
+        if (!url.startsWith('http')) {
+          url = `files/${kbId}.md`;
+        }
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed to load');
+        
+        const markdown = await response.text();
+        const html = marked.parse(markdown);
+        
+        // Fix image URLs to be relative
+        let processedHtml = html;
+        
+        // Replace absolute image URLs with relative paths
+        // Pattern: https://app.imsdesk.com/knowledgebase/images/filename.png -> images/filename.png
+        processedHtml = processedHtml.replace(
+          /src="(https?:\/\/[^"]*\/images\/[^"]+)"/gi,
+          (match, url) => {
+            // Extract just the filename from the URL
+            const filename = url.split('/').pop();
+            return `src="images/${filename}"`;
+          }
+        );
+        
+        modalBody.innerHTML = `<div class="markdown-content">${processedHtml}</div>`;
+        
+        // Ensure images are properly sized and handle loading errors
+        modalBody.querySelectorAll('img').forEach(img => {
+          img.style.maxWidth = '100%';
+          img.style.height = 'auto';
+          img.onerror = function() {
+            this.alt = 'Image not found';
+            this.style.border = '2px dashed #e2e8f0';
+            this.style.padding = '2rem';
+            this.style.backgroundColor = '#f8fafc';
+          };
+        });
+      } catch (error) {
+        console.error('Error loading article:', error);
+        modalBody.innerHTML = `
+          <div class="text-center py-12">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-4">
+              <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Unable to load article</h3>
+            <p class="text-slate-600">The article content could not be loaded. Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Close modal
+    function closeModal() {
+      const modal = document.getElementById('articleModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderSearchResults();
+    });
+
+    // Close modal handlers
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.querySelectorAll('.close-modal-btn').forEach(btn => {
+      btn.addEventListener('click', closeModal);
+    });
+
+    document.getElementById('articleModal').addEventListener('click', (e) => {
+      if (e.target.id === 'articleModal') {
+        closeModal();
+      }
+    });
+
+    // Escape key to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Initialize
+    loadArticles();
+  </script>
 </body>
 </html>

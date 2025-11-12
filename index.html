@@ -747,9 +747,9 @@
                   </button>
                 </div>
               </div>
-              <a href="#" id="articleExternalLink" class="inline-flex items-center gap-2 text-appclust hover:text-appclust-dark font-semibold transition-colors" target="_blank" rel="noopener" style="display: none;">
-                <i class="fas fa-comments"></i>
-                <span>Join the discussion on GitHub</span>
+              <a href="#" id="articleWhatsappLink" class="inline-flex items-center gap-2 text-appclust hover:text-appclust-dark font-semibold transition-colors" target="_blank" rel="noopener" style="display: inline-flex;">
+                <i class="fab fa-whatsapp"></i>
+                <span>Need help? Chat with us</span>
                 <i class="fas fa-external-link-alt text-xs"></i>
               </a>
             </footer>
@@ -1538,11 +1538,9 @@
               Read Article
               <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
             </a>
-            ${article.external_link ? `
-              <a href="${article.external_link}" class="text-slate-400 hover:text-appclust transition-colors" target="_blank" onclick="event.stopPropagation()">
-                <i class="fas fa-comments"></i>
-              </a>
-            ` : ''}
+            <a href="https://wa.me/919633016479?text=Hello%2C%20I%20need%20help%20with%20${encodeURIComponent(article.title)}" class="text-slate-400 hover:text-[#25D366] transition-colors" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">
+              <i class="fas fa-comments"></i>
+            </a>
           </div>
         </div>
       `;
@@ -2023,14 +2021,11 @@
           };
         });
 
-        // Set up external link
-        const externalLink = document.getElementById('articleExternalLink');
-        if (article.external_link) {
-          externalLink.href = article.external_link;
-          externalLink.style.display = 'inline-flex';
-        } else {
-          externalLink.style.display = 'none';
-        }
+        // Set up WhatsApp link
+        const whatsappLink = document.getElementById('articleWhatsappLink');
+        const articleTitle = encodeURIComponent(article.title);
+        whatsappLink.href = `https://wa.me/919633016479?text=Hello%2C%20I%20need%20help%20with%20${articleTitle}`;
+        whatsappLink.style.display = 'inline-flex';
 
         // Set up share buttons
         const currentUrl = window.location.origin + window.location.pathname + `#article/${kbId}`;

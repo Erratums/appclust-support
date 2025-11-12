@@ -8,15 +8,6 @@
 		"maxWidth": "750"
 	},
 	{
-		"kb_id": "how_to_setup_rfid_for_employee",
-		"title": "How to setup RFID for Employee",
-		"tags": "rfid, employee rfid, time tracking",
-		"url": "https://app.imsdesk.com/knowledgebase/files/how_to_setup_rfid_for_employee.md",
-		"external_link": "https://github.com/Erratums/ims-support/discussions/2",
-		"maxWidth": "750",
-		"maxHeight": "860"
-	},
-	{
 		"kb_id": "how_to_show_more_rows_in_list_table",
 		"title": "How to show more rows in list/table",
 		"tags": "table, grid, row, count",
@@ -24,23 +15,6 @@
 		"external_link": "https://github.com/Erratums/ims-support/discussions/10",
 		"maxWidth": "750",
 		"maxHeight": "710"
-	},
-	{
-		"kb_id": "where_is_my_quotations",
-		"title": "Where is my Quotations",
-		"tags": "quotations, invoice, find",
-		"url": "https://app.imsdesk.com/knowledgebase/files/where_is_my_quotations.md",
-		"external_link": "https://github.com/Erratums/ims-support/discussions/12",
-		"maxWidth": "750",
-		"maxHeight": "910"
-	},
-	{
-		"kb_id": "how_to_set_previous_bill_date_in_invoice",
-		"title": "How to set previous bill date in invoice / purchase / stock",
-		"tags": "bill, invoice, previous, purchase, stock",
-		"url": "https://app.imsdesk.com/knowledgebase/files/how_to_set_previous_bill_date_in_invoice.md",
-		"external_link": "https://github.com/Erratums/ims-support/discussions/9",
-		"maxWidth": "750"
 	},
 	{
 		"kb_id": "auto_generate_product_code",
@@ -65,14 +39,6 @@
 		"tags": "add products, add item",
 		"url": "https://app.imsdesk.com/knowledgebase/files/how_to_add_items.md",
 		"external_link": "https://github.com/Erratums/ims-support/discussions/8",
-		"maxWidth": "750"
-	},
-	{
-		"kb_id": "sign_in_or_create_new_account",
-		"title": "Sign In or Create new account",
-		"tags": "Sign In, Create Account, New Account",
-		"url": "https://app.imsdesk.com/knowledgebase/files/sign_in_or_create_new_account.md",
-		"external_link": "https://github.com/Erratums/ims-support/discussions/13",
 		"maxWidth": "750"
 	},
 	{
@@ -108,24 +74,6 @@
 		"url": "https://app.imsdesk.com/knowledgebase/files/visible_modules_in_home_screen.md",
 		"external_link": "https://github.com/Erratums/ims-support/discussions/16",
 		"maxWidth": "750"
-	},
-	{
-		"kb_id": "add_item_in_invoice",
-		"title": "Add/pick Item in Invoice/Purchase/Stock",
-		"tags": "add, pick, product, item, invoice, purchase, stock",
-		"url": "https://app.imsdesk.com/knowledgebase/files/add_item_in_invoice.md",
-		"external_link": "https://github.com/Erratums/ims-support/discussions/18",
-		"maxWidth": "750",
-		"maxHeight": "550"
-	},
-	{
-		"kb_id": "update_invoice_date",
-		"title": "How can I update invoice date",
-		"tags": "update, change, invoide, date",
-		"url": "https://app.imsdesk.com/knowledgebase/files/update_invoice_date.md",
-		"external_link": "https://github.com/Erratums/ims-support/discussions/72",
-		"maxWidth": "800",
-		"maxHeight": "750"
 	},
 	{
 		"kb_id": "video_1",

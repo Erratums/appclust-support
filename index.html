@@ -206,57 +206,182 @@
     html {
       scroll-behavior: smooth;
     }
+    
+    /* Navbar enhancements */
+    .navbar {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    
+    .navbar-scrolled {
+      background: rgba(129, 0, 255, 0.95);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo-container {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .logo-container::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    
+    .logo-container:hover::before {
+      opacity: 1;
+    }
+    
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .nav-link:hover::after {
+      width: 80%;
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+    
+    .logo-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+    
+    .navbar-gradient {
+      background: linear-gradient(
+        135deg,
+        rgba(129, 0, 255, 1) 0%,
+        rgba(106, 0, 204, 1) 50%,
+        rgba(129, 0, 255, 1) 100%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 8s linear infinite;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-b from-slate-50 to-white antialiased">
-  <!-- Header -->
-  <header class="relative bg-gradient-to-br from-appclust via-appclust-dark to-appclust text-white overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-20">
-      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);"></div>
-    </div>
-    
-    <!-- Navigation Bar -->
-    <nav class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex items-center justify-between">
-        <a href="https://www.appclust.com" class="flex items-center gap-2 group">
-          <div class="h-6 w-6 group-hover:scale-110 transition-transform flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 810" class="h-full w-full">
-              <g clip-path="url(#clip1)">
+  <!-- Sticky Navigation Bar -->
+  <nav id="mainNavbar" class="navbar fixed top-0 left-0 right-0 z-50 navbar-gradient">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <!-- Logo -->
+        <a href="#" onclick="event.preventDefault(); navigateHome();" class="logo-container flex items-center gap-3 group">
+          <div class="relative h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center logo-float">
+            <div class="absolute inset-0 bg-white/20 rounded-xl blur-sm group-hover:blur-md transition-all duration-300"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 810" class="h-full w-full relative z-10 group-hover:scale-110 transition-transform duration-300">
+              <g clip-path="url(#nav-clip1)">
                 <path fill="#ffffff" d="M 81 685.554688 L 81.023438 685.554688 L 145.804688 685.578125 L 145.828125 685.554688 L 275.414062 461.113281 L 372.597656 629.449219 L 307.769531 629.449219 L 275.390625 573.347656 L 210.609375 685.554688 L 469.78125 685.554688 L 275.390625 348.882812 Z M 81 685.554688 " />
               </g>
-              <g clip-path="url(#clip2)">
+              <g clip-path="url(#nav-clip2)">
                 <path fill="#ffffff" d="M 631.792969 517.21875 L 631.769531 517.21875 L 599.390625 573.347656 L 631.769531 629.449219 L 566.964844 629.449219 L 372.597656 292.78125 L 405 236.675781 L 437.378906 292.78125 L 502.207031 292.78125 L 405 124.421875 L 307.792969 292.753906 L 307.792969 292.78125 L 307.816406 292.78125 L 534.5625 685.554688 L 534.585938 685.554688 L 534.585938 685.578125 L 729 685.578125 Z M 631.792969 517.21875 " />
               </g>
               <defs>
-                <clipPath id="clip1"><path d="M 81 348 L 470 348 L 470 685.335938 L 81 685.335938 Z M 81 348 " /></clipPath>
-                <clipPath id="clip2"><path d="M 307 124.335938 L 729 124.335938 L 729 685.335938 L 307 685.335938 Z M 307 124.335938 " /></clipPath>
+                <clipPath id="nav-clip1"><path d="M 81 348 L 470 348 L 470 685.335938 L 81 685.335938 Z M 81 348 " /></clipPath>
+                <clipPath id="nav-clip2"><path d="M 307 124.335938 L 729 124.335938 L 729 685.335938 L 307 685.335938 Z M 307 124.335938 " /></clipPath>
               </defs>
             </svg>
           </div>
-          <span class="text-lg font-bold">AppClust</span>
+          <div class="flex flex-col">
+            <span class="text-lg sm:text-xl font-bold text-white leading-tight">AppClust</span>
+            <span class="text-[10px] sm:text-xs text-white/70 font-medium -mt-0.5">Support</span>
+          </div>
         </a>
-        <a href="https://www.appclust.com" class="text-white/90 hover:text-white text-xs sm:text-sm font-medium transition-colors">
-          Back to AppClust →
-        </a>
+        
+        <!-- Navigation Links -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <a href="https://dashboard.appclust.com" target="_blank" class="nav-link text-white/90 hover:text-white text-xs sm:text-sm font-medium hidden sm:inline-flex items-center gap-1.5">
+            <i class="fas fa-user-shield text-xs"></i>
+            <span>Client Area</span>
+          </a>
+          <a href="https://www.appclust.com" class="nav-link text-white/90 hover:text-white text-xs sm:text-sm font-medium inline-flex items-center gap-2 group/link">
+            <span>Back to AppClust</span>
+            <i class="fas fa-arrow-right text-xs group-hover/link:translate-x-1 transition-transform"></i>
+          </a>
+        </div>
       </div>
-    </nav>
+    </div>
     
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10 pt-4 text-center">
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm mb-4 border border-white/20">
-        <i class="fas fa-life-ring text-2xl text-white"></i>
+    <!-- Bottom border gradient -->
+    <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+  </nav>
+
+  <!-- Header -->
+  <header class="relative bg-gradient-to-br from-appclust via-appclust-dark to-appclust text-white overflow-hidden pt-16 sm:pt-20">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%), radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);"></div>
+    </div>
+    
+    <!-- Animated gradient overlay -->
+    <div class="absolute inset-0 opacity-30">
+      <div class="absolute inset-0 bg-gradient-to-r from-appclust-light via-transparent to-appclust-light animate-pulse" style="animation-duration: 4s;"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8 pt-4 sm:pt-6 text-center">
+      <div class="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/10 backdrop-blur-md mb-3 border border-white/20 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+        <i class="fas fa-life-ring text-xl sm:text-2xl text-white group-hover:rotate-12 transition-transform duration-300"></i>
       </div>
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 text-white">
-        Help Center
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2 text-white tracking-tight">
+        <span class="bg-gradient-to-r from-white via-white/95 to-white bg-clip-text text-transparent">
+          Help Center
+        </span>
       </h1>
-      <p class="text-base sm:text-lg text-white/90 max-w-2xl mx-auto">
+      <p class="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed">
         Find answers, guides, and tutorials to get the most out of AppClust
       </p>
+      
+      <!-- Decorative elements -->
+      <div class="absolute top-10 left-10 w-16 h-16 bg-white/5 rounded-full blur-2xl"></div>
+      <div class="absolute bottom-6 right-10 w-24 h-24 bg-white/5 rounded-full blur-3xl"></div>
     </div>
   </header>
 
   <!-- Search Section -->
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20 mb-12">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4 relative z-20 mb-12">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/50 flex items-center px-6 py-5 focus-within:ring-4 focus-within:ring-appclust/20 focus-within:border-appclust transition-all backdrop-blur-sm">
       <i class="fas fa-search text-appclust text-xl mr-4"></i>
       <input 
@@ -424,30 +549,28 @@
     </div>
   </div>
 
-  <!-- WhatsApp Floating Button -->
+  <!-- Support Chat Floating Button -->
   <button 
     id="whatsappButton"
     class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group"
-    aria-label="Chat with us on WhatsApp"
+    aria-label="Contact Support"
   >
     <div class="relative">
       <!-- Tooltip (hidden on mobile) -->
       <div class="hidden sm:block absolute right-full mr-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
         <div class="bg-slate-900 text-white text-sm font-medium px-4 py-2 rounded-lg whitespace-nowrap shadow-xl">
-          Chat with us on WhatsApp
+          Contact Support
           <div class="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-slate-900"></div>
         </div>
       </div>
       
       <!-- Button -->
-      <div class="bg-gradient-to-br from-[#25D366] to-[#128C7E] hover:from-[#128C7E] hover:to-[#25D366] w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-3xl group-active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7 sm:w-8 sm:h-8">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-        </svg>
+      <div class="bg-gradient-to-br from-appclust via-appclust-dark to-appclust-light hover:from-appclust-light hover:to-appclust w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-3xl group-active:scale-95">
+        <i class="fas fa-comments text-white text-xl sm:text-2xl"></i>
       </div>
       
       <!-- Pulse Animation -->
-      <div class="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-20"></div>
+      <div class="absolute inset-0 bg-appclust rounded-full animate-ping opacity-20"></div>
     </div>
   </button>
 
@@ -1047,7 +1170,7 @@
         // Fix image URLs to use absolute paths
         let processedHtml = html;
         
-        // Replace absolute image URLs with absolute paths (to work with /article/ routes)
+        // Replace absolute image URLs with absolute paths
         processedHtml = processedHtml.replace(
           /src="(https?:\/\/[^"]*\/images\/[^"]+)"/gi,
           (match, url) => {
@@ -1269,6 +1392,25 @@
       }
     });
 
+    // Navbar scroll effect
+    let lastScroll = 0;
+    const navbar = document.getElementById('mainNavbar');
+    
+    function handleNavbarScroll() {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 50) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+      
+      lastScroll = currentScroll;
+    }
+    
+    window.addEventListener('scroll', handleNavbarScroll);
+    handleNavbarScroll(); // Check on initial load
+    
     // Initialize
     loadArticles();
     

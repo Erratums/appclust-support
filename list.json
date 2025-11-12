@@ -126,5 +126,33 @@
 		"external_link": "https://github.com/Erratums/ims-support/discussions/72",
 		"maxWidth": "800",
 		"maxHeight": "750"
+	},
+	{
+		"kb_id": "video_1",
+		"title": "How to Add Products",
+		"tags": "add, product, products, item",
+		"youtube_url": "https://youtu.be/IwBsYn34F64",
+		"type": "video"
+	},
+	{
+		"kb_id": "video_2",
+		"title": "How to Add Categories",
+		"tags": "add, category, categories, sub category",
+		"youtube_url": "https://youtu.be/PvvZj6eHHJM",
+		"type": "video"
+	},
+	{
+		"kb_id": "video_3",
+		"title": "How to Add Brands",
+		"tags": "add, brand, brands",
+		"youtube_url": "https://youtu.be/uw6Q4y1dIZM",
+		"type": "video"
+	},
+	{
+		"kb_id": "video_4",
+		"title": "How to Add Additional Details in Products",
+		"tags": "add, additional, details, product, products",
+		"youtube_url": "https://youtu.be/pl70cSHFFXs",
+		"type": "video"
 	}
 ]

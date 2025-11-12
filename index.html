@@ -276,6 +276,25 @@
       font-weight: 600;
       color: #0f172a;
     }
+    .markdown-content .youtube-embed {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 2rem 0;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .markdown-content .youtube-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0.75rem;
+    }
     
     /* Line clamp utility */
     .line-clamp-2 {
@@ -490,8 +509,28 @@
   <div id="mainContent">
     <!-- Homepage Content -->
     <div id="homePage" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      <!-- Videos Section -->
+      <div id="videosSection" style="display: none;">
+        <div class="mb-10">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-1 h-8 bg-gradient-to-b from-appclust to-appclust-light rounded-full"></div>
+              <div>
+                <h2 class="text-3xl font-bold text-slate-900">Video Tutorials</h2>
+                <p class="text-slate-600 mt-1">Watch step-by-step video guides</p>
+              </div>
+            </div>
+            <button id="viewAllVideosBtn" class="hidden text-appclust hover:text-appclust-dark font-semibold text-sm flex items-center gap-2 transition-all">
+              <span>View All</span>
+              <i class="fas fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+        </div>
+        <div id="videosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+
       <!-- Recent Articles Section -->
-      <div id="recentSection" style="display: none;">
+      <div id="recentSection" style="display: none;" class="mt-16">
         <div class="mb-10">
           <div class="flex items-center gap-3 mb-3">
             <div class="w-1 h-8 bg-gradient-to-b from-appclust to-appclust-light rounded-full"></div>
@@ -516,6 +555,40 @@
           </div>
         </div>
         <div id="articlesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </div>
+
+    <!-- All Videos Page Content -->
+    <div id="allVideosPage" class="hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-6" aria-label="Breadcrumb">
+          <ol class="flex items-center space-x-2 text-sm">
+            <li>
+              <a href="#" onclick="event.preventDefault(); navigateHome();" class="text-slate-500 hover:text-appclust transition-colors">Home</a>
+            </li>
+            <li class="text-slate-400">
+              <i class="fas fa-chevron-right text-xs"></i>
+            </li>
+            <li>
+              <span class="text-slate-900 font-medium">All Video Tutorials</span>
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="mb-10">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-1 h-12 bg-gradient-to-b from-appclust to-appclust-light rounded-full"></div>
+            <div>
+              <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 mb-2">All Video Tutorials</h1>
+              <p class="text-slate-600 text-lg">Watch step-by-step video guides to master AppClust</p>
+            </div>
+          </div>
+        </header>
+
+        <!-- All Videos Grid -->
+        <div id="allVideosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
       </div>
     </div>
 
@@ -825,109 +898,80 @@
 
   <script>
     let articles = [];
+    let videos = [];
     let searchQuery = '';
+
+    // Extract YouTube video ID from URL
+    function getYouTubeVideoId(url) {
+      if (!url) return null;
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/watch\?.*[&?]v=([a-zA-Z0-9_-]{11})/
+      ];
+      for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match && match[1]) {
+          return match[1];
+        }
+      }
+      return null;
+    }
 
     // Dynamically discover and load articles from markdown files
     async function loadArticles() {
       try {
-        // Try to get list of markdown files from auto-generated index
-        let fileList = [];
-        try {
-          const indexResponse = await fetch('files-index.json');
-          if (indexResponse.ok) {
-            fileList = await indexResponse.json();
-          }
-        } catch (e) {
-          console.log('files-index.json not found, trying list.json fallback');
+        // Load articles from list.json which contains all metadata
+        const listResponse = await fetch('list.json');
+        if (!listResponse.ok) {
+          throw new Error('list.json not found');
         }
-
-        // Fallback to list.json if files-index.json doesn't exist
-        if (fileList.length === 0) {
-          try {
-            const listResponse = await fetch('list.json');
-            const listData = await listResponse.json();
-            fileList = listData.map(item => item.kb_id || item.url?.split('/').pop()?.replace('.md', ''));
-          } catch (e) {
-            console.log('list.json also not found');
-          }
-        }
-
-        // If we still have no files, show error
-        if (fileList.length === 0) {
-          throw new Error('No file list available');
-        }
-
-        // Fetch and parse each markdown file to extract metadata
-        articles = await Promise.all(
-          fileList.map(async (filename) => {
-            const kbId = filename.replace('.md', '');
-            const fileUrl = `/files/${kbId}.md`;
-            
-            try {
-              const response = await fetch(fileUrl);
-              if (!response.ok) throw new Error('File not found');
-              
-              const markdown = await response.text();
-              
-              // Extract title from first heading
-              let title = kbId.replace(/_/g, ' ')
+        
+        const listData = await listResponse.json();
+        
+        // Separate articles and videos
+        articles = [];
+        videos = [];
+        
+        listData.forEach(item => {
+          if (item.type === 'video' && item.youtube_url) {
+            // This is a video
+            const videoId = getYouTubeVideoId(item.youtube_url);
+            videos.push({
+              kb_id: item.kb_id,
+              title: item.title || item.kb_id.replace(/_/g, ' ')
                 .split(' ')
                 .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-              
-              const headingMatch = markdown.match(/^#+\s+(.+)$/m);
-              if (headingMatch) {
-                title = headingMatch[1]
-                  .replace(/\*\*/g, '')
-                  .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
-                  .trim();
-              }
-              
-              // Extract tags from frontmatter or generate from filename
-              let tags = '';
-              const frontmatterMatch = markdown.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
-              if (frontmatterMatch) {
-                const frontmatter = frontmatterMatch[1];
-                const tagsMatch = frontmatter.match(/^tags?:\s*(.+)$/mi);
-                if (tagsMatch) {
-                  tags = tagsMatch[1].trim();
-                }
-              }
-              
-              if (!tags) {
-                const words = kbId.split('_').filter(w => w.length > 2);
-                tags = words.join(', ');
-              }
-              
-              // Try to find external link
-              let externalLink = '';
-              const linkMatch = markdown.match(/https?:\/\/github\.com\/[^\/]+\/[^\/]+\/discussions\/\d+/);
-              if (linkMatch) {
-                externalLink = linkMatch[0];
-              }
-              
-              return {
-                kb_id: kbId,
-                title: title,
-                tags: tags,
-                url: fileUrl,
-                external_link: externalLink || null
-              };
-            } catch (error) {
-              // If file doesn't exist, return null and filter it out
-              return null;
-            }
-          })
-        );
-
-        // Filter out null entries (files that don't exist)
-        articles = articles.filter(article => article !== null);
+                .join(' '),
+              tags: item.tags || '',
+              youtube_url: item.youtube_url,
+              video_id: videoId
+            });
+          } else {
+            // This is an article
+            const fileUrl = `/files/${item.kb_id}.md`;
+            articles.push({
+              kb_id: item.kb_id,
+              title: item.title || item.kb_id.replace(/_/g, ' ')
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' '),
+              tags: item.tags || '',
+              url: fileUrl,
+              external_link: item.external_link || null,
+              maxWidth: item.maxWidth || null,
+              maxHeight: item.maxHeight || null
+            });
+          }
+        });
         
         // Sort by filename (newest first - assuming newer files have later alphabetical names)
         articles.sort((a, b) => b.kb_id.localeCompare(a.kb_id));
+        videos.sort((a, b) => b.kb_id.localeCompare(a.kb_id));
 
         // Show last 6 articles on homepage
         showRecentArticles();
+        // Show videos on homepage
+        showVideos();
       } catch (error) {
         console.error('Error loading articles:', error);
         const isCorsError = error.message.includes('CORS') || 
@@ -981,15 +1025,281 @@
       });
     }
 
-    // Filter articles by search query
-    function getFilteredArticles() {
-      if (!searchQuery) return [];
+    // Show videos (initially only 3, with "View All" option)
+    let showAllVideos = false;
+    
+    function showVideos() {
+      const videosSection = document.getElementById('videosSection');
+      const videosContainer = document.getElementById('videosContainer');
+      const viewAllBtn = document.getElementById('viewAllVideosBtn');
       
-      return articles.filter(article => {
+      if (videos.length === 0) return;
+      
+      // Show only first 3 videos initially, or all if showAllVideos is true
+      const videosToShow = showAllVideos ? videos : videos.slice(0, 3);
+      
+      videosContainer.innerHTML = videosToShow.map(video => createVideoCard(video)).join('');
+      videosSection.style.display = 'block';
+      
+      // Show/hide "View All" button
+      if (videos.length > 3) {
+        if (showAllVideos) {
+          viewAllBtn.classList.add('hidden');
+        } else {
+          viewAllBtn.classList.remove('hidden');
+        }
+      } else {
+        viewAllBtn.classList.add('hidden');
+      }
+      
+      // Add click handlers for video cards
+      videosContainer.querySelectorAll('.video-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          // Don't trigger if clicking on the YouTube link button
+          if (e.target.closest('.youtube-link-btn')) {
+            return;
+          }
+          const videoId = card.dataset.videoId;
+          const video = videos.find(v => v.video_id === videoId);
+          if (video) {
+            openVideoModal(video);
+          }
+        });
+      });
+    }
+    
+    // Handle "View All" button click (using event delegation)
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#viewAllVideosBtn')) {
+        e.preventDefault();
+        navigateToAllVideos();
+      }
+    });
+
+    // Navigate to all videos page
+    function navigateToAllVideos() {
+      window.location.hash = '#videos';
+    }
+
+    // Show all videos page
+    function showAllVideosPage() {
+      // Hide other pages
+      document.getElementById('homePage').classList.add('hidden');
+      document.getElementById('articlePage').classList.add('hidden');
+      document.getElementById('allVideosPage').classList.remove('hidden');
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
+
+      // Update page title and meta tags for SEO
+      const baseUrl = 'https://help.appclust.com';
+      const fullUrl = baseUrl + '/#videos';
+      
+      // Update title
+      document.title = 'All Video Tutorials | AppClust Support Documentation';
+      
+      // Update meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.content = 'Watch all AppClust video tutorials and step-by-step guides. Learn how to use AppClust features through comprehensive video documentation.';
+      }
+      
+      // Update canonical URL
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.rel = 'canonical';
+        document.head.appendChild(canonical);
+      }
+      canonical.href = baseUrl + '/videos';
+      
+      // Update Open Graph tags
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.content = 'All Video Tutorials | AppClust Support';
+      
+      const ogDescription = document.querySelector('meta[property="og:description"]');
+      if (ogDescription) {
+        ogDescription.content = 'Watch all AppClust video tutorials and step-by-step guides. Learn how to use AppClust features through comprehensive video documentation.';
+      }
+      
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.content = fullUrl;
+      
+      const ogType = document.querySelector('meta[property="og:type"]');
+      if (ogType) ogType.content = 'website';
+      
+      // Update Twitter tags
+      const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twitterTitle) twitterTitle.content = 'All Video Tutorials | AppClust Support';
+      
+      const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+      if (twitterDescription) {
+        twitterDescription.content = 'Watch all AppClust video tutorials and step-by-step guides.';
+      }
+      
+      const twitterUrl = document.querySelector('meta[name="twitter:url"]');
+      if (twitterUrl) twitterUrl.content = fullUrl;
+
+      // Render all videos
+      const allVideosContainer = document.getElementById('allVideosContainer');
+      if (allVideosContainer && videos.length > 0) {
+        allVideosContainer.innerHTML = videos.map(video => createVideoCard(video)).join('');
+        
+        // Add click handlers for video cards
+        allVideosContainer.querySelectorAll('.video-card').forEach(card => {
+          card.addEventListener('click', (e) => {
+            // Don't trigger if clicking on the YouTube link button
+            if (e.target.closest('.youtube-link-btn')) {
+              return;
+            }
+            const videoId = card.dataset.videoId;
+            const video = videos.find(v => v.video_id === videoId);
+            if (video) {
+              openVideoModal(video);
+            }
+          });
+        });
+      } else if (allVideosContainer) {
+        allVideosContainer.innerHTML = `
+          <div class="col-span-full text-center py-16">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+              <i class="fas fa-video text-slate-400 text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">No videos available</h3>
+            <p class="text-slate-600">Check back later for video tutorials.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Create video card HTML
+    function createVideoCard(video) {
+      const thumbnailUrl = `https://img.youtube.com/vi/${video.video_id}/maxresdefault.jpg`;
+      
+      return `
+        <div class="video-card bg-white rounded-xl border border-slate-200/60 overflow-hidden cursor-pointer hover:shadow-2xl hover:border-appclust/30 hover:-translate-y-1 group transition-all duration-300" data-video-id="${video.video_id}">
+          <div class="relative aspect-video bg-slate-100 overflow-hidden">
+            <img src="${thumbnailUrl}" alt="${video.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${video.video_id}/hqdefault.jpg'">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+              <div class="w-16 h-16 rounded-full bg-appclust/90 backdrop-blur-sm flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
+                <i class="fas fa-play text-xl ml-1"></i>
+              </div>
+            </div>
+            <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+              <i class="fab fa-youtube mr-1"></i>
+              YouTube
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold text-slate-900 group-hover:text-appclust transition-colors mb-2 line-clamp-2">${video.title}</h3>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+              <div class="flex items-center gap-2 text-sm text-slate-500">
+                <i class="fas fa-video"></i>
+                <span>Video Tutorial</span>
+              </div>
+              <a href="${video.youtube_url}" target="_blank" rel="noopener noreferrer" class="youtube-link-btn text-appclust hover:text-appclust-dark font-semibold text-sm flex items-center gap-2 transition-all" onclick="event.stopPropagation();">
+                <i class="fab fa-youtube"></i>
+                <span>Open on YouTube</span>
+                <i class="fas fa-external-link-alt text-xs"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Open video modal
+    function openVideoModal(video) {
+      // Create modal if it doesn't exist
+      let modal = document.getElementById('videoModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'videoModal';
+        modal.className = 'fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] hidden items-center justify-center p-4';
+        modal.innerHTML = `
+          <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-6 sm:p-8 animate-modalSlideIn relative">
+            <button id="closeVideoModal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors z-10">
+              <i class="fas fa-times"></i>
+            </button>
+            <div class="mb-4">
+              <h3 id="videoModalTitle" class="text-2xl font-bold text-slate-900"></h3>
+            </div>
+            <div class="relative aspect-video bg-slate-900 rounded-xl overflow-hidden">
+              <div id="videoModalContent"></div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Close button handler
+        document.getElementById('closeVideoModal').addEventListener('click', () => {
+          closeVideoModal();
+        });
+        
+        // Close on backdrop click
+        modal.addEventListener('click', (e) => {
+          if (e.target.id === 'videoModal') {
+            closeVideoModal();
+          }
+        });
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeVideoModal();
+          }
+        });
+      }
+      
+      // Set video content
+      document.getElementById('videoModalTitle').textContent = video.title;
+      document.getElementById('videoModalContent').innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/${video.video_id}?autoplay=1" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          class="absolute inset-0 w-full h-full"
+          frameborder="0"
+        ></iframe>
+      `;
+      
+      // Show modal
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close video modal
+    function closeVideoModal() {
+      const modal = document.getElementById('videoModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+        // Clear iframe to stop video playback
+        document.getElementById('videoModalContent').innerHTML = '';
+      }
+    }
+
+    // Filter articles and videos by search query
+    function getFilteredArticles() {
+      if (!searchQuery) {
+        return { articles: [], videos: [] };
+      }
+      
+      const filteredArticles = articles.filter(article => {
         const titleMatch = article.title.toLowerCase().includes(searchQuery.toLowerCase());
         const tagsMatch = article.tags && article.tags.toLowerCase().includes(searchQuery.toLowerCase());
         return titleMatch || tagsMatch;
       });
+      
+      const filteredVideos = videos.filter(video => {
+        const titleMatch = video.title.toLowerCase().includes(searchQuery.toLowerCase());
+        const tagsMatch = video.tags && video.tags.toLowerCase().includes(searchQuery.toLowerCase());
+        return titleMatch || tagsMatch;
+      });
+      
+      return { articles: filteredArticles, videos: filteredVideos };
     }
 
     // Render search results
@@ -1024,26 +1334,35 @@
         if (recentSection) {
           recentSection.style.display = 'block';
         }
+        const videosSection = document.getElementById('videosSection');
+        if (videosSection && videos.length > 0) {
+          videosSection.style.display = 'block';
+        }
         return;
       }
 
       if (recentSection) {
         recentSection.style.display = 'none';
       }
+      const videosSection = document.getElementById('videosSection');
+      if (videosSection) {
+        videosSection.style.display = 'none';
+      }
       if (searchResults) {
         searchResults.style.display = 'block';
       }
       
       const filtered = getFilteredArticles();
+      const totalResults = filtered.articles.length + filtered.videos.length;
 
-      if (filtered.length === 0) {
+      if (totalResults === 0) {
         if (container) {
           container.innerHTML = `
             <div class="col-span-full text-center py-16">
               <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
                 <i class="fas fa-search text-slate-400 text-2xl"></i>
               </div>
-              <h3 class="text-2xl font-bold text-slate-900 mb-2">No articles found</h3>
+              <h3 class="text-2xl font-bold text-slate-900 mb-2">No results found</h3>
               <p class="text-slate-600">Try adjusting your search terms or browse recent articles above.</p>
             </div>
           `;
@@ -1055,16 +1374,39 @@
       }
 
       if (resultsCount) {
-        resultsCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'article' : 'articles'} found`;
+        resultsCount.textContent = `${totalResults} ${totalResults === 1 ? 'result' : 'results'} found (${filtered.articles.length} articles, ${filtered.videos.length} videos)`;
       }
       if (container) {
-        container.innerHTML = filtered.map(article => createArticleCard(article)).join('');
+        let html = '';
+        
+        // Add articles
+        if (filtered.articles.length > 0) {
+          html += filtered.articles.map(article => createArticleCard(article)).join('');
+        }
+        
+        // Add videos
+        if (filtered.videos.length > 0) {
+          html += filtered.videos.map(video => createVideoCard(video)).join('');
+        }
+        
+        container.innerHTML = html;
 
-        // Add click handlers - update to use History API routing
+        // Add click handlers for articles
         container.querySelectorAll('.article-card').forEach(card => {
           card.addEventListener('click', () => {
             const kbId = card.dataset.kbId;
             navigateToArticle(kbId);
+          });
+        });
+        
+        // Add click handlers for videos
+        container.querySelectorAll('.video-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const videoId = card.dataset.videoId;
+            const video = videos.find(v => v.video_id === videoId);
+            if (video) {
+              openVideoModal(video);
+            }
           });
         });
       }
@@ -1222,6 +1564,70 @@
       return `${minutes} min read`;
     }
 
+    // Convert YouTube URLs to embedded iframes
+    function convertYouTubeLinks(html) {
+      // Function to extract YouTube video ID from various URL formats
+      function getYouTubeVideoId(url) {
+        if (!url) return null;
+        
+        // Remove any query parameters and fragments for cleaner matching
+        const cleanUrl = url.split('&')[0].split('#')[0];
+        
+        const patterns = [
+          /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+          /youtube\.com\/watch\?.*[&?]v=([a-zA-Z0-9_-]{11})/
+        ];
+        
+        for (const pattern of patterns) {
+          const match = cleanUrl.match(pattern);
+          if (match && match[1]) {
+            return match[1];
+          }
+        }
+        return null;
+      }
+
+      // Replace YouTube links in anchor tags (markdown links are converted to <a> tags by marked)
+      html = html.replace(
+        /<a[^>]*href=["'](https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)[^"']+)["'][^>]*>([^<]*)<\/a>/gi,
+        (match, url, linkText) => {
+          const videoId = getYouTubeVideoId(url);
+          if (videoId) {
+            return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+          }
+          return match; // Return original if not a valid YouTube URL
+        }
+      );
+
+      // Replace standalone YouTube URLs in text (not in anchor tags)
+      // This handles plain URLs in markdown that aren't formatted as links
+      html = html.replace(
+        /(?:^|[\s>])(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[^\s<"']+)(?:[\s<]|$)/gi,
+        (match, url, offset, string) => {
+          // Check if this URL is already inside an anchor tag
+          const beforeMatch = string.substring(0, offset);
+          const afterMatch = string.substring(offset + match.length);
+          
+          // If we're inside an anchor tag, skip this match
+          const lastOpenTag = beforeMatch.lastIndexOf('<a');
+          const lastCloseTag = beforeMatch.lastIndexOf('</a>');
+          if (lastOpenTag > lastCloseTag) {
+            return match; // Inside an anchor tag, skip
+          }
+          
+          const videoId = getYouTubeVideoId(url);
+          if (videoId) {
+            const prefix = match.substring(0, match.indexOf(url));
+            const suffix = match.substring(match.indexOf(url) + url.length);
+            return `${prefix}<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>${suffix}`;
+          }
+          return match;
+        }
+      );
+
+      return html;
+    }
+
     // Find related articles based on tags and title
     function findRelatedArticles(currentArticle, limit = 3) {
       if (!currentArticle || !currentArticle.tags) return [];
@@ -1294,9 +1700,10 @@
         return;
       }
       
-      // Show article page, hide homepage
+      // Show article page, hide other pages
       document.getElementById('homePage').classList.add('hidden');
       document.getElementById('articlePage').classList.remove('hidden');
+      document.getElementById('allVideosPage').classList.add('hidden');
       
       // Scroll to top
       window.scrollTo(0, 0);
@@ -1432,6 +1839,9 @@
           }
         );
         
+        // Convert YouTube URLs to embedded players
+        processedHtml = convertYouTubeLinks(processedHtml);
+        
         // Update article content
         document.getElementById('articleContent').innerHTML = `<div class="markdown-content">${processedHtml}</div>`;
         
@@ -1530,6 +1940,7 @@
       window.location.hash = '';
       document.getElementById('homePage').classList.remove('hidden');
       document.getElementById('articlePage').classList.add('hidden');
+      document.getElementById('allVideosPage').classList.add('hidden');
       
       // Reset meta tags to homepage
       const baseUrl = 'https://help.appclust.com';
@@ -1603,6 +2014,15 @@
           }
         } else {
           navigateHome();
+        }
+      } else if (hash === '#videos') {
+        // Wait for videos to load if needed
+        if (videos.length === 0) {
+          loadArticles().then(() => {
+            showAllVideosPage();
+          });
+        } else {
+          showAllVideosPage();
         }
       } else {
         navigateHome();

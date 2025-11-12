@@ -1,14 +1,18 @@
 # robots.txt for AppClust Help Center
 # https://help.appclust.com/robots.txt
+# Last updated: 2025-01-27
 
 User-agent: *
 Allow: /
 Allow: /files/
 Allow: /images/
 Allow: /article/
+Allow: /sitemap.xml
+Allow: /robots.txt
 
 # Disallow hash-based URLs (not SEO-friendly)
 Disallow: /*#article/
+Disallow: /*#videos
 
 # Sitemap location
 Sitemap: https://help.appclust.com/sitemap.xml

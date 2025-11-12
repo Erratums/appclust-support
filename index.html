@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="https://schema.org/WebSite">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
@@ -18,12 +18,32 @@
   <link rel="canonical" href="https://help.appclust.com/" />
   <link rel="sitemap" type="application/xml" href="https://help.appclust.com/sitemap.xml" />
   
+  <!-- Performance & Resource Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://www.appclust.com" />
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="geo.region" content="US" />
+  <meta name="geo.placename" content="United States" />
+  <meta name="rating" content="General" />
+  <meta name="distribution" content="Global" />
+  <meta name="coverage" content="Worldwide" />
+  <meta name="target" content="all" />
+  <meta name="audience" content="all" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://help.appclust.com/" />
   <meta property="og:title" content="AppClust Help Center - Support Documentation, Guides & Tutorials" />
   <meta property="og:description" content="Comprehensive AppClust support center with step-by-step guides, tutorials, and documentation. Learn how to use AppClust features including invoices, inventory, RFID, billing, and more." />
-  <meta property="og:image" content="https://help.appclust.com/images/og-image.png" />
+  <meta property="og:image" content="https://www.appclust.com/images/thumbnail.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="AppClust Help Center - Support Documentation" />
@@ -35,7 +55,7 @@
   <meta name="twitter:url" content="https://help.appclust.com/" />
   <meta name="twitter:title" content="AppClust Help Center - Support Documentation, Guides & Tutorials" />
   <meta name="twitter:description" content="Comprehensive AppClust support center with step-by-step guides, tutorials, and documentation. Learn how to use AppClust features." />
-  <meta name="twitter:image" content="https://help.appclust.com/images/og-image.png" />
+  <meta name="twitter:image" content="https://www.appclust.com/images/thumbnail.jpg" />
   <meta name="twitter:image:alt" content="AppClust Help Center" />
   <meta name="twitter:site" content="@appclust" />
   <meta name="twitter:creator" content="@appclust" />
@@ -52,15 +72,26 @@
     "@type": "Organization",
     "name": "AppClust",
     "url": "https://www.appclust.com",
-    "logo": "https://www.appclust.com/logo.svg",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.appclust.com/logo.svg",
+      "width": 810,
+      "height": 810
+    },
     "description": "AppClust - Business management and ERP software solution",
+    "foundingDate": "2020",
     "sameAs": [
       "https://www.appclust.com"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "Customer Support",
-      "availableLanguage": ["English"]
+      "availableLanguage": ["English"],
+      "areaServed": "Worldwide"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "US"
     }
   }
   </script>
@@ -99,7 +130,66 @@
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": []
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://help.appclust.com"
+        }
+      ]
     }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I sign in or create a new AppClust account?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can sign in to your existing AppClust account or create a new one from the login screen. Visit our help center for step-by-step instructions on signing in or creating a new account."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where can I find my quotations in AppClust?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Quotations are automatically moved to the Quotations module. You can access them from the Modules list. Note that you cannot add new quotations directly from this module - you must create them from the Invoice module by selecting Invoice Type as Quotation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I add items or products in AppClust?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can add products or items by going to the Items tab and clicking Add New. Our help center provides detailed step-by-step instructions with screenshots on how to add items to your inventory."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I setup RFID for employees?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To setup RFID for employees, you need to configure the employee unique code field and enable RFID functionality. Check our detailed guide with screenshots for complete instructions on setting up RFID for employee time tracking."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I update invoice dates in AppClust?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can update invoice dates using the update date button in the invoice editor. Make sure the setting 'Allow users to set previous date' is enabled in your organization settings."
+        }
+      }
+    ]
   }
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -413,7 +503,7 @@
 </head>
 <body class="bg-gradient-to-b from-slate-50 to-white antialiased">
   <!-- Sticky Navigation Bar -->
-  <nav id="mainNavbar" class="navbar fixed top-0 left-0 right-0 z-50 navbar-gradient">
+  <nav id="mainNavbar" class="navbar fixed top-0 left-0 right-0 z-50 navbar-gradient" role="navigation" aria-label="Main navigation">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 sm:h-20">
         <!-- Logo -->
@@ -458,7 +548,7 @@
   </nav>
 
   <!-- Header -->
-  <header class="relative bg-gradient-to-br from-appclust via-appclust-dark to-appclust text-white overflow-hidden pt-16 sm:pt-20">
+  <header class="relative bg-gradient-to-br from-appclust via-appclust-dark to-appclust text-white overflow-hidden pt-16 sm:pt-20" role="banner">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-20">
       <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%), radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);"></div>
@@ -475,11 +565,11 @@
       </div>
       <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2 text-white tracking-tight">
         <span class="bg-gradient-to-r from-white via-white/95 to-white bg-clip-text text-transparent">
-          Help Center
+          AppClust Help Center
         </span>
       </h1>
-      <p class="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed">
-        Find answers, guides, and tutorials to get the most out of AppClust
+      <p class="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed" role="doc-subtitle">
+        Find answers, guides, and tutorials to get the most out of AppClust. Comprehensive support documentation for invoices, inventory, RFID, billing, and more.
       </p>
       
       <!-- Decorative elements -->
@@ -490,13 +580,15 @@
 
   <!-- Search Section -->
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-4 relative z-20 mb-12">
-    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/50 flex items-center px-6 py-5 focus-within:ring-4 focus-within:ring-appclust/20 focus-within:border-appclust transition-all backdrop-blur-sm">
-      <i class="fas fa-search text-appclust text-xl mr-4"></i>
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200/50 flex items-center px-6 py-5 focus-within:ring-4 focus-within:ring-appclust/20 focus-within:border-appclust transition-all backdrop-blur-sm" role="search" aria-label="Search articles">
+      <i class="fas fa-search text-appclust text-xl mr-4" aria-hidden="true"></i>
       <input 
-        type="text" 
+        type="search" 
         id="searchInput" 
         placeholder="Search articles, guides, and tutorials..." 
         class="flex-1 text-slate-900 placeholder-slate-400 outline-none text-lg font-medium"
+        aria-label="Search for articles, guides, and tutorials"
+        autocomplete="off"
       />
       <div class="hidden sm:flex items-center gap-2 text-xs text-slate-400 ml-4">
         <kbd class="px-2 py-1 bg-slate-100 rounded border border-slate-200">⌘</kbd>
@@ -863,7 +955,7 @@
   </div>
 
   <!-- Footer -->
-  <footer class="bg-slate-50 border-t border-slate-200 mt-20">
+  <footer class="bg-slate-50 border-t border-slate-200 mt-20" role="contentinfo">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -1210,6 +1302,9 @@
 
     // Open video modal
     function openVideoModal(video) {
+      // Add video structured data for SEO
+      addVideoStructuredData(video);
+      
       // Create modal if it doesn't exist
       let modal = document.getElementById('videoModal');
       if (!modal) {
@@ -1475,31 +1570,46 @@
       // Remove existing article structured data
       const existing = document.querySelector('script[data-article-schema]');
       if (existing) existing.remove();
+      const existingBreadcrumb = document.querySelector('script[data-breadcrumb-schema]');
+      if (existingBreadcrumb) existingBreadcrumb.remove();
       
       const baseUrl = 'https://help.appclust.com';
       const articleUrl = baseUrl + `/article/${article.kb_id}`;
       const currentDate = new Date().toISOString();
       
+      // Determine if it's a HowTo or regular Article
+      const isTutorial = article.title.toLowerCase().includes('how to') || 
+                        article.title.toLowerCase().includes('setup') ||
+                        article.title.toLowerCase().includes('guide') ||
+                        article.title.toLowerCase().includes('tutorial');
+      
       // Create Article structured data
       const articleSchema = {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": isTutorial ? "HowTo" : "Article",
         "headline": article.title,
-        "description": `${article.title} - Step-by-step guide on how to ${article.title.toLowerCase()} in AppClust.`,
+        "name": article.title,
+        "description": `${article.title} - Step-by-step guide on how to ${article.title.toLowerCase()} in AppClust. Comprehensive tutorial with screenshots and detailed instructions.`,
         "url": articleUrl,
         "datePublished": currentDate,
         "dateModified": currentDate,
         "author": {
           "@type": "Organization",
           "name": "AppClust",
-          "url": "https://www.appclust.com"
+          "url": "https://www.appclust.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.appclust.com/logo.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "AppClust",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://www.appclust.com/logo.svg"
+            "url": "https://www.appclust.com/logo.svg",
+            "width": 810,
+            "height": 810
           }
         },
         "mainEntityOfPage": {
@@ -1508,8 +1618,21 @@
         },
         "keywords": article.tags || "",
         "articleSection": "Support Documentation",
-        "inLanguage": "en-US"
+        "inLanguage": "en-US",
+        "isAccessibleForFree": true,
+        "license": "https://help.appclust.com"
       };
+      
+      // Add HowTo specific properties
+      if (isTutorial) {
+        articleSchema.step = [];
+        articleSchema.totalTime = "PT5M";
+        articleSchema.estimatedCost = {
+          "@type": "MonetaryAmount",
+          "currency": "USD",
+          "value": "0"
+        };
+      }
       
       // Create BreadcrumbList structured data
       const breadcrumbSchema = {
@@ -1531,17 +1654,6 @@
         ]
       };
       
-      // Add HowTo schema if applicable (for tutorial articles)
-      const isTutorial = article.title.toLowerCase().includes('how to') || 
-                        article.title.toLowerCase().includes('setup') ||
-                        article.title.toLowerCase().includes('guide');
-      
-      if (isTutorial) {
-        articleSchema["@type"] = "HowTo";
-        articleSchema.name = article.title;
-        articleSchema.description = `${article.title} - Step-by-step tutorial for AppClust.`;
-      }
-      
       // Inject structured data
       const script1 = document.createElement('script');
       script1.type = 'application/ld+json';
@@ -1554,6 +1666,43 @@
       script2.setAttribute('data-breadcrumb-schema', 'true');
       script2.textContent = JSON.stringify(breadcrumbSchema);
       document.head.appendChild(script2);
+    }
+    
+    // Add VideoObject structured data for videos
+    function addVideoStructuredData(video) {
+      const baseUrl = 'https://help.appclust.com';
+      const videoUrl = baseUrl + `/video/${video.video_id}`;
+      const thumbnailUrl = `https://img.youtube.com/vi/${video.video_id}/maxresdefault.jpg`;
+      
+      const videoSchema = {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": video.title,
+        "description": `${video.title} - Video tutorial for AppClust. Learn how to ${video.title.toLowerCase()} with step-by-step video instructions.`,
+        "thumbnailUrl": thumbnailUrl,
+        "uploadDate": new Date().toISOString(),
+        "duration": "PT5M",
+        "contentUrl": video.youtube_url,
+        "embedUrl": `https://www.youtube.com/embed/${video.video_id}`,
+        "publisher": {
+          "@type": "Organization",
+          "name": "AppClust",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.appclust.com/logo.svg"
+          }
+        }
+      };
+      
+      // Remove existing video schema if any
+      const existing = document.querySelector('script[data-video-schema]');
+      if (existing) existing.remove();
+      
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-video-schema', 'true');
+      script.textContent = JSON.stringify(videoSchema);
+      document.head.appendChild(script);
     }
 
     // Calculate reading time
